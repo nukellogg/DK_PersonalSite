@@ -4,14 +4,13 @@ name: Trigger auto deployment for www-deankarlan-com
 on:
   # Automatically trigger it when detected changes in repo
   push:
-    branches: 
-      [ master ]
+    branches: [master]
     paths:
-    - '**'
-    - '.github/workflows/www-deankarlan-com-AutoDeployTrigger-441f8b90-fe4b-43a0-8b94-32d1292c9c5e.yml'
+      - "**"
+      - ".github/workflows/www-deankarlan-com-AutoDeployTrigger-441f8b90-fe4b-43a0-8b94-32d1292c9c5e.yml"
 
-  # Allow mannually trigger 
-  workflow_dispatch:      
+  # Allow mannually trigger
+  workflow_dispatch:
 
 jobs:
   build:
@@ -35,21 +34,19 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ksmcontainerreg.azurecr.io/www-deankarlan-com:latest
+          tags: ksmcontainerreg.azurecr.io/www-deankarlan-com:${{ github.sha }}
           file: ./Dockerfile
           context: ./
-
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    
+
     steps:
       - name: Azure Login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.WWWDEANKARLANCOM_AZURE_CREDENTIALS }}
-
 
       - name: Deploy to containerapp
         uses: azure/CLI@v1
