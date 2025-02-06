@@ -26,7 +26,7 @@ jobs:
       - name: Log in to container registry
         uses: docker/login-action@v1
         with:
-          registry: ksmcontainerreg.azurecr.io
+          registry: ksmacr.azurecr.io
           username: ${{ secrets.WWWDEANKARLANCOM_REGISTRY_USERNAME }}
           password: ${{ secrets.WWWDEANKARLANCOM_REGISTRY_PASSWORD }}
 
@@ -34,7 +34,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ksmcontainerreg.azurecr.io/www-deankarlan-com:${{ github.sha }}
+          tags: ksmacr.azurecr.io/www-deankarlan-com:${{ github.sha }}
           file: ./Dockerfile
           context: ./
 
@@ -53,5 +53,5 @@ jobs:
         with:
           inlineScript: |
             az config set extension.use_dynamic_install=yes_without_prompt
-            az containerapp registry set -n www-deankarlan-com -g KSM_ContainerApps_RG --server ksmcontainerreg.azurecr.io --username  ${{ secrets.WWWDEANKARLANCOM_REGISTRY_USERNAME }} --password ${{ secrets.WWWDEANKARLANCOM_REGISTRY_PASSWORD }}
-            az containerapp update -n www-deankarlan-com -g KSM_ContainerApps_RG --image ksmcontainerreg.azurecr.io/www-deankarlan-com:${{ github.sha }}
+            az containerapp registry set -n www-deankarlan-com -g KSM_Teaching_RG --server ksmacr.azurecr.io --username  ${{ secrets.WWWDEANKARLANCOM_REGISTRY_USERNAME }} --password ${{ secrets.WWWDEANKARLANCOM_REGISTRY_PASSWORD }}
+            az containerapp update -n www-deankarlan-com -g KSM_ContainerApps_RG --image ksmacr.azurecr.io/www-deankarlan-com:${{ github.sha }}
