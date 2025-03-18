@@ -38,7 +38,7 @@ jobs:
       # Build and Push Frontend Docker Image
       - name: Build and Push Website Image
         run: |
-          docker build -t ksmacr.azurecr.io/wwwdeankarlancom:${{ github.sha }} ./
+          docker build --no-cache -t ksmacr.azurecr.io/wwwdeankarlancom:${{ github.sha }} ./
           docker push ksmacr.azurecr.io/wwwdeankarlancom:${{ github.sha }}
           
       - name: Deploy Website to Azure Container Apps
