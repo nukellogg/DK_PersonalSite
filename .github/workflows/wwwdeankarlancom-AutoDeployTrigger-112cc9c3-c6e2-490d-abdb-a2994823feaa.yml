@@ -1,8 +1,7 @@
-name: Trigger auto deployment for wwwdeankarlancom
+name: Trigger auto deployment for wwwdk
 
 # When this action will be executed
 on:
-  # Automatically trigger it when detected changes in repo
   push:
     branches: 
       [ master ]
@@ -12,7 +11,11 @@ on:
 
   # Allow manual trigger 
   workflow_dispatch:
-      
+
+permissions:
+  id-token: write
+  contents: read      
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -21,24 +24,27 @@ jobs:
       - name: Checkout to the branch
         uses: actions/checkout@v2
 
-      - name: Azure Login
+      - name: Azure Login with Client Secret
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.WWWDEANKARLANCOM_AZURE_CREDENTIALS }}
+          client-id: ${{ secrets.STRT452SIMDEV_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.STRT452SIMDEV_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.STRT452SIMDEV_AZURE_SUBSCRIPTION_ID }}
+          client-secret: ${{ secrets.STRT452SIMDEV_AZURE_CLIENT_SECRET }} 
 
-      - name: Build and push container image to registry
-        uses: azure/container-apps-deploy-action@v2
-        with:
-          appSourcePath: ${{ github.workspace }}
-          _dockerfilePathKey_: _dockerfilePath_
-          registryUrl: ksmacr.azurecr.io
-          registryUsername: ${{ secrets.WWWDEANKARLANCOM_REGISTRY_USERNAME }}
-          registryPassword: ${{ secrets.WWWDEANKARLANCOM_REGISTRY_PASSWORD }}
-          containerAppName: wwwdeankarlancom
-          resourceGroup: KSM_Teaching_RG
-          imageToBuild: ksmacr.azurecr.io/wwwdeankarlancom:${{ github.sha }}
+      - name: Log in to Azure Container Registry (ACR)
+        run: |
+          az acr login --name ksmacr
+      # Build and Push Frontend Docker Image
+      - name: Build and Push Website Image
+        run: |
+          docker build -t ksmacr.azurecr.io/wwwdeankarlancom:${{ github.sha }} ./
+          docker push ksmacr.azurecr.io/wwwdeankarlancom:${{ github.sha }}
           
+      - name: Deploy Website to Azure Container Apps
+        run: |
+          az containerapp update \
+            --name wwwdeankarlancom \
+            --resource-group KSM_Teaching_RG \
+            --image ksmacr.azurecr.io/wwwdeankarlancom:${{ github.sha }} 
             
-
-     
-
