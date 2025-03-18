@@ -27,10 +27,10 @@ jobs:
       - name: Azure Login with Client Secret
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.STRT452SIMDEV_AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.STRT452SIMDEV_AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.STRT452SIMDEV_AZURE_SUBSCRIPTION_ID }}
-          client-secret: ${{ secrets.STRT452SIMDEV_AZURE_CLIENT_SECRET }} 
+          client-id: ${{ secrets.WWWDK_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.WWWDK_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.WWWDK_AZURE_SUBSCRIPTION_ID }}
+          client-secret: ${{ secrets.WWWDK_AZURE_CLIENT_SECRET }} 
 
       - name: Log in to Azure Container Registry (ACR)
         run: |
