@@ -11,7 +11,7 @@ RUN rm -rf ./*
 COPY docker/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
 
 # Copy website files into the container
-COPY /* /usr/share/nginx/html
+COPY . /usr/share/nginx/html
 
 # Expose HTTP (80) and HTTPS (443) ports
 EXPOSE 80 443
