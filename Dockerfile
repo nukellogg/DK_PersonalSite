@@ -14,7 +14,7 @@ COPY docker/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
 COPY . /usr/share/nginx/html
 
 # Expose HTTP (80) and HTTPS (443) ports
-EXPOSE 8082
+EXPOSE 80 443
 
 # Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
