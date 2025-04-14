@@ -4,12 +4,12 @@ name: Trigger auto deployment for www-deankarlan-com
 on:
   # Automatically trigger it when detected changes in repo
   push:
-    branches: [master]
+    branches: [test]
     paths:
       - "**"
       - ".github/workflows/www-deankarlan-com-AutoDeployTrigger-441f8b90-fe4b-43a0-8b94-32d1292c9c5e.yml"
 
-  # Allow mannually trigger
+  # Allow manually trigger
   workflow_dispatch:
 
 permissions:
