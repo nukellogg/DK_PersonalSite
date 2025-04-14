@@ -497,29 +497,48 @@ button:focus {
 	margin-bottom: 0;
 }
 
+
+
+/*
+Modified Code begins here!!!!!!!!!!
+*/
 .paper-type-selector {
-    margin: 20px 0;
-    text-align: center;
+    margin-bottom: 20px;
 }
 
 .radio-group {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 15px;
-    margin-top: 15px;
 }
 
 .radio-container {
-    display: inline-flex;
-    align-items: center;
+    position: relative;
+    display: inline-block;
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
     cursor: pointer;
-    padding: 8px 18px;
-    border-radius: 25px;
-    border: 2px solid #2C7CF6;
     transition: all 0.3s ease;
-    margin: 0 5px;
 }
+
+.radio-container.active {
+    background-color: #2C7CF6;
+    color: white;
+    border-color: #2C7CF6;
+}
+
+.radio-container input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.radio-label {
+    cursor: pointer;
+}
+
 
 .radio-container:hover {
     background-color: rgba(44, 124, 246, 0.1);
@@ -528,12 +547,6 @@ button:focus {
 .radio-container input[type="radio"] {
     position: absolute;
     opacity: 0;
-}
-
-.radio-label {
-    font-size: 16px;
-    font-weight: 600;
-    color: #333;
 }
 
 .radio-container input[type="radio"]:checked + .radio-label {
@@ -576,6 +589,8 @@ input[name="paper-type"]:checked + .radio-label {
         margin-bottom: 10px;
     }
 }
+
+
 
 /*
 #initiatives-promo {
