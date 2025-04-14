@@ -81,10 +81,10 @@
 
 
                             <br>
-                            <div id="policy-papers-table-info" style="display: inline-flex; float: left">
+                            <div id="academic-reviews-table-info" style="display: inline-flex; float: left">
                             </div><div style="display: inline-flex; float: right; margin-right: 30px;">
                             <button type="reset" value="Reset" id="resetBtn">Reset Search</button></div><br><br>
-                            <div id="policy-papers-table"></div>
+                            <div id="academic-reviews-table"></div>
 
                         </form>
 
@@ -165,7 +165,7 @@
 
 
 
-        var table = new Tabulator("#policy-papers-table", {
+        var table = new Tabulator("#academic-reviews-table", {
             data:results,
             initialSort : [
                 { column: "date", dir: "desc" }
@@ -180,19 +180,39 @@
             dataFiltered:function(filters, rows){
                 //filters - array of filters currently applied
                 //rows - array of row components that pass the filters
-                var div = document.getElementById('policy-papers-table-info');
+                var div = document.getElementById('academic-reviews-table-info');
 
                 div.innerHTML = 'There are ' + rows.length + " articles available matching your search criteria.";
 
             }
         });
-        $('#policy-papers-table').addClass("table-striped");
+        $('#academic-reviews-table').addClass("table-striped");
 
         $(document).on("click","#resetBtn", function(){
             table.clearHeaderFilter();
         });
         $(window).resize(function() {
             table.redraw(true);
+        });
+
+        function customFilterPaper(data) {
+            // return data.type.toLowerCase().includes($("#type-of-paper-selector").val().toLowerCase());
+            // Split data.type at hyphens and join with spaces
+            const formattedType = data.type.split('-').join(' ').toLowerCase();
+            // Get the dropdown value and convert to lowercase
+            const selectedType = $("#type-of-paper-selector").split('-').join(' ').val().toLowerCase();
+            
+            // Exact comparison instead of includes
+            return formattedType === selectedType;
+        }
+
+        function updatePaperFilter() {
+            var filter = customFilterPaper;
+            table.addFilter(filter, $("#type-of-paper-selector").val());
+        }
+
+        $("#type-of-paper-selector").change(function () {
+            updatePaperFilter();
         });
 
 
