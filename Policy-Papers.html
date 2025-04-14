@@ -68,28 +68,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="books-container">
-
                         <div class="title-container">
-
                             <h2 class="section-title">Policy Papers</h2><br/><br/>
-                            <!-- <div class="paper-type-selector">
-                                <div class="radio-group">
-                                    <label class="radio-container">
-                                        <input type="radio" name="paper-type" value="Academic-Papers">
-                                        <span class="radio-label">Academic Papers</span>
-                                    </label>
-                                    <label class="radio-container active">
-                                        <input type="radio" name="paper-type" value="Academic-Reviews" checked>
-                                        <span class="radio-label">Review Articles</span>
-                                    </label>
-                                    <label class="radio-container">
-                                        <input type="radio" name="paper-type" value="Policy-Papers">
-                                        <span class="radio-label">Policy Papers</span>
-                                    </label>
-                                </div>
-                            </div> -->
-
-
                         </div>
 
                         <form class="paperTable">
@@ -208,12 +188,6 @@
 
         $(document).on("click","#resetBtn", function(){
             table.clearHeaderFilter();
-            $("#category-field").prop('selectedIndex', 0);
-            updateFilter();
-            $("#country-field").prop('selectedIndex', 0);
-            updateCountryFilter();
-            // Reset radio buttons to first option
-            // $('input[name="paper-type"]').first().prop('checked', true).change();
 
         });
 

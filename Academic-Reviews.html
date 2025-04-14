@@ -71,23 +71,6 @@
 
                         <div class="title-container">
                             <h2 class="section-title">Academic Reviews</h2><br/><br/>
-                            <!-- <div class="paper-type-selector">
-                                <div class="radio-group">
-                                    <label class="radio-container">
-                                        <input type="radio" name="paper-type" value="Academic-Papers">
-                                        <span class="radio-label">Academic Papers</span>
-                                    </label>
-                                    <label class="radio-container active">
-                                        <input type="radio" name="paper-type" value="Academic-Reviews" checked>
-                                        <span class="radio-label">Review Articles</span>
-                                    </label>
-                                    <label class="radio-container">
-                                        <input type="radio" name="paper-type" value="Policy-Papers">
-                                        <span class="radio-label">Policy Papers</span>
-                                    </label>
-                                </div>
-                            </div> -->
-
                         </div>
 
                         <form class="paperTable">
@@ -205,26 +188,14 @@
 
         $(document).on("click","#resetBtn", function(){
             table.clearHeaderFilter();
-            $("#category-field").prop('selectedIndex', 0);
-            updateFilter();
-            $("#country-field").prop('selectedIndex', 0);
-            updateCountryFilter();
-            // Reset radio buttons to first option
-            // $('input[name="paper-type"]').first().prop('checked', true).change();
-
         });
+
         $(window).resize(function() {
             table.redraw(true);
         });
 
         function customFilterPaper(data) {
-            // return data.type.toLowerCase().includes($('input[name="paper-type"]:checked').val().toLowerCase());
             return data.type.toLowerCase().includes($("#type-of-paper-selector").val().toLowerCase());
-            // Get the value attribute from the selected radio button
-            // const selectedValue = $('input[name="paper-type"]:checked').val();
-            
-            // // Compare this value with the data.type field in your dataset
-            // return data.type === selectedValue;
         }
 
         function updatePaperFilter() {

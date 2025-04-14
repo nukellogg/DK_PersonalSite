@@ -94,24 +94,7 @@
                                     <option value="Academic-Reviews">Review Articles</option>
                                     <option value="Non-Academic-Writing">Non-Academic Writing</option>
                                 </select>
-                                <!-- <div class="paper-type-selector">
-                                <div class="radio-group">
-                                    <label class="radio-container">
-                                        <input type="radio" name="paper-type" value="Academic-Papers" checked>
-                                        <span class="radio-label">Academic Papers</span>
-                                    </label>
-                                    <label class="radio-container">
-                                        <input type="radio" name="paper-type" value="Academic-Reviews">
-                                        <span class="radio-label">Review Articles</span>
-                                    </label>
-                                    <label class="radio-container">
-                                        <input type="radio" name="paper-type" value="Non-Academic-Writing">
-                                        <span class="radio-label">Non-Academic Writing</span>
-                                    </label>
-                                </div>
-                                </div> -->
-                            </h2>
-                            <br/><br/>
+                            </h2><br/><br/>
                         </div>
 
                         <div class="table-controls" style="display: block">
@@ -152,7 +135,7 @@
                                         <option value="Smoking Cessation">Smoking Cessation</option>
                                         <option value="Social Capital">Social Capital</option>
                                         <option value="Social Protection">Social Protection</option>
-                                            <option value="Teaching">Teaching</option>
+                                        <option value="Teaching">Teaching</option>
                                     </select>
                                 </span>
                             </div>
@@ -401,7 +384,7 @@
 
         function updatePaperFilter() {
             // Remove all previous filters
-            table.clearFilter();
+            // table.clearFilter();
             var filter = customFilterPaper;
             
             table.addFilter(filter, $("#type-of-paper-selector").val());
@@ -414,27 +397,7 @@
             updatePaperFilter();
         });
 
-        // initializeRadioButtons();
-
     }
-
-    // // Add this function to initialize radio buttons
-    // function initializeRadioButtons() {
-    //     // Set the initial active state based on checked radio
-    //     $('input[name="paper-type"]:checked').closest('.radio-container').addClass('active');
-        
-    //     // Add event listener for styling changes
-    //     $('input[name="paper-type"]').change(function() {
-    //         // Remove active class from all containers
-    //         $('.radio-container').removeClass('active');
-    //         // Add active class to the selected container
-    //         $(this).closest('.radio-container').addClass('active');
-            
-    //         // Track analytics if needed
-    //         updateCounter("type_counter", $(this).val());
-    //     });
-    // }
-
 
 </script>
 <script src="https://script.google.com/macros/s/AKfycbwhVgwFUDnTsWmLkoEj-WyW_eOFTUF0ibJwNhXdCMZIT6bczSc--_MAof_0EpAIvwzqtQ/exec?action=display">
