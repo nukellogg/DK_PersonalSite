@@ -71,7 +71,7 @@
 
                         <div class="title-container">
                             <h2 class="section-title">Academic Reviews</h2><br/><br/>
-                            <div class="paper-type-selector">
+                            <!-- <div class="paper-type-selector">
                                 <div class="radio-group">
                                     <label class="radio-container">
                                         <input type="radio" name="paper-type" value="Academic-Papers">
@@ -86,7 +86,7 @@
                                         <span class="radio-label">Policy Papers</span>
                                     </label>
                                 </div>
-                            </div>
+                            </div> -->
 
                         </div>
 
@@ -210,7 +210,7 @@
             $("#country-field").prop('selectedIndex', 0);
             updateCountryFilter();
             // Reset radio buttons to first option
-            $('input[name="paper-type"]').first().prop('checked', true).change();
+            // $('input[name="paper-type"]').first().prop('checked', true).change();
 
         });
         $(window).resize(function() {
@@ -219,47 +219,24 @@
 
         function customFilterPaper(data) {
             // return data.type.toLowerCase().includes($('input[name="paper-type"]:checked').val().toLowerCase());
-            // return data.type.toLowerCase().includes($("#type-of-paper-selector").val().toLowerCase());
+            return data.type.toLowerCase().includes($("#type-of-paper-selector").val().toLowerCase());
             // Get the value attribute from the selected radio button
-            const selectedValue = $('input[name="paper-type"]:checked').val();
+            // const selectedValue = $('input[name="paper-type"]:checked').val();
             
-            // Compare this value with the data.type field in your dataset
-            return data.type === selectedValue;
+            // // Compare this value with the data.type field in your dataset
+            // return data.type === selectedValue;
         }
 
         function updatePaperFilter() {
             var filter = customFilterPaper;
-            table.addFilter(filter, $('input[name="paper-type"]:checked').val());
+            table.addFilter(filter, $("#type-of-paper-selector").val());
         }
 
-        $('input[name="paper-type"]').change(function () {
+        $("#type-of-paper-selector").change(function () {
             updatePaperFilter();
         });
 
     }
-
-    // Add this function to initialize radio buttons
-    function initializeRadioButtons() {
-        // Set the initial active state based on checked radio
-        $('input[name="paper-type"]:checked').closest('.radio-container').addClass('active');
-        
-        // Add event listener for styling changes
-        $('input[name="paper-type"]').change(function() {
-            // Remove active class from all containers
-            $('.radio-container').removeClass('active');
-            // Add active class to the selected container
-            $(this).closest('.radio-container').addClass('active');
-            
-            // Track analytics if needed
-            updateCounter("type_counter", $(this).val());
-        });
-    }
-
-
-    // Call this function when document is ready
-    $(document).ready(function() {
-        initializeRadioButtons();
-    });
 
 
 </script>

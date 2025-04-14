@@ -89,12 +89,12 @@
                     <div class="books-container">
                         <div class="title-container">
                             <h2 class="section-title"> Publications </h2>
-                                <!-- <select id="type-of-paper-selector" >
+                                <select id="type-of-paper-selector" >
                                     <option value="Academic-Papers">Academic Papers</option>
                                     <option value="Academic-Reviews">Review Articles</option>
                                     <option value="Non-Academic-Writing">Non-Academic Writing</option>
-                                </select> -->
-                                <div class="paper-type-selector">
+                                </select>
+                                <!-- <div class="paper-type-selector">
                                 <div class="radio-group">
                                     <label class="radio-container">
                                         <input type="radio" name="paper-type" value="Academic-Papers" checked>
@@ -109,8 +109,8 @@
                                         <span class="radio-label">Non-Academic Writing</span>
                                     </label>
                                 </div>
-                                </div>
-                            <!-- <br/><br/> -->
+                                </div> -->
+                            <br/><br/>
                         </div>
 
                         <div class="table-controls" style="display: block">
@@ -390,12 +390,12 @@
         });
 
         function customFilterPaper(data) {
-            // return data.type.toLowerCase().includes($('input[name="paper-type"]:checked').val().toLowerCase());
+            return data.type.toLowerCase().includes($("#type-of-paper-selector").val().toLowerCase());
             // Get the value attribute from the selected radio button
-            const selectedValue = $('input[name="paper-type"]:checked').val();
+            // const selectedValue = $('input[name="paper-type"]:checked').val();
             
             // Compare this value with the data.type field in your dataset
-            return data.type === selectedValue;
+            // return data.type === selectedValue;
         }
 
         function updatePaperFilter() {
@@ -403,36 +403,36 @@
             table.clearFilter();
             var filter = customFilterPaper;
             
-            table.addFilter(filter, $('input[name="paper-type"]:checked').val());
+            table.addFilter(filter, $("#type-of-paper-selector").val());
         }
 
         // $("#type-of-paper-selector").change(function () {
         //     updatePaperFilter();
         // });
-        $('input[name="paper-type"]').change(function () {
+        $("#type-of-paper-selector").change(function () {
             updatePaperFilter();
         });
 
-        initializeRadioButtons();
+        // initializeRadioButtons();
 
     }
 
-    // Add this function to initialize radio buttons
-    function initializeRadioButtons() {
-        // Set the initial active state based on checked radio
-        $('input[name="paper-type"]:checked').closest('.radio-container').addClass('active');
+    // // Add this function to initialize radio buttons
+    // function initializeRadioButtons() {
+    //     // Set the initial active state based on checked radio
+    //     $('input[name="paper-type"]:checked').closest('.radio-container').addClass('active');
         
-        // Add event listener for styling changes
-        $('input[name="paper-type"]').change(function() {
-            // Remove active class from all containers
-            $('.radio-container').removeClass('active');
-            // Add active class to the selected container
-            $(this).closest('.radio-container').addClass('active');
+    //     // Add event listener for styling changes
+    //     $('input[name="paper-type"]').change(function() {
+    //         // Remove active class from all containers
+    //         $('.radio-container').removeClass('active');
+    //         // Add active class to the selected container
+    //         $(this).closest('.radio-container').addClass('active');
             
-            // Track analytics if needed
-            updateCounter("type_counter", $(this).val());
-        });
-    }
+    //         // Track analytics if needed
+    //         updateCounter("type_counter", $(this).val());
+    //     });
+    // }
 
 
 </script>
