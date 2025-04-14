@@ -222,15 +222,14 @@
         });
 
         function customFilterPaper(data) {
-            return data.type.toLowerCase().includes($('input[name="paper-type"]:checked').val().toLowerCase());
+            // return data.type.toLowerCase().includes($('input[name="paper-type"]:checked').val().toLowerCase());
             // return data.type.toLowerCase().includes($("#type-of-paper-selector").val().toLowerCase());
-            // Split data.type at hyphens and join with spaces
-            // const formattedType = data.type.split('-').join(' ').toLowerCase();
-            // // Get the dropdown value and convert to lowercase
-            // const selectedType = $("#type-of-paper-selector").split('-').join(' ').val().toLowerCase();
+            // Get the value attribute from the selected radio button
+            const selectedValue = $('input[name="paper-type"]:checked').val();
             
-            // // Exact comparison instead of includes
-            // return formattedType === selectedType;
+            // Compare this value with the data.type field in your dataset
+            return data.type === selectedValue;
+
         }
 
         function updatePaperFilter() {
