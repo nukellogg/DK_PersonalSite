@@ -198,6 +198,28 @@
             text-align: center;
             padding: 2rem;
         }
+        
+        /* Three-column header layout */
+        .three-column-header {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 2rem;
+        }
+
+        .column-left, .column-right {
+        flex: 1;  /* These take up equal space on left and right */
+        }
+
+        .column-center {
+        flex: 2;  /* The center column is twice as wide */
+        text-align: center;
+        }
+
+        /* Remove margin from section title since the container handles it */
+        .column-center .section-title {
+        margin-bottom: 0;
+        }
 
         .spinner {
             display: inline-block;
@@ -457,7 +479,13 @@
 
     <main>
         <div class="container">
-            <h1 class="section-title">Publications</h1>
+            <div class="three-column-header">
+                <div class="column-left"></div>
+                    <div class="column-center">
+                        <h1 class="section-title">Publications</h1>
+                    </div>
+                <div class="column-right"></div>
+            </div>
             
             <!-- Paper Type Selector (Radio Buttons) -->
             <div class="paper-type-selector">
