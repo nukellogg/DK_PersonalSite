@@ -95,7 +95,7 @@ function handleData(results) {
             {
                 title: "Title",
                 field: "title",
-                width: 450, // Fixed width instead of percentage
+                width: "50%", // Fixed width instead of percentage
                 headerFilter: "input",
                 variableHeight: true,
                 formatter: function(cell, formatterParams, onRendered) {
@@ -124,10 +124,7 @@ function handleData(results) {
                     cellEl.appendChild(linkEl);
                     cellEl.appendChild(tooltipEl);
                     
-                    // Force row to adjust height after rendering
-                    onRendered(function(){
-                        cell.getRow().normalizeHeight();
-                    });
+                    
                     
                     return cellEl;
                 },
@@ -138,7 +135,7 @@ function handleData(results) {
             {
                 title: "Date",
                 field: "date", 
-                width: 100, // Fixed width
+                width: "7%", // Fixed width
                 formatter: function(cell, formatterParams, onRendered) {
                     var value = cell.getValue();
                     if (value) {
@@ -148,10 +145,7 @@ function handleData(results) {
                     element.className = "tabulator-cell-wrapper";
                     element.textContent = value || "";
                     
-                    // Force row to adjust height after rendering
-                    onRendered(function(){
-                        cell.getRow().normalizeHeight();
-                    });
+                    
                     
                     return element;
                 },
@@ -160,7 +154,7 @@ function handleData(results) {
             {
                 title: "Publication",
                 field: "publication",
-                width: 250, // Fixed width
+                width: "23%", // Fixed width
                 formatter: function(cell, formatterParams, onRendered) {
                     var value = cell.getValue() || "";
                     var element = document.createElement("div");
@@ -169,10 +163,7 @@ function handleData(results) {
                     element.style.wordBreak = "break-word";
                     element.style.whiteSpace = "normal";
                     
-                    // Force row to adjust height after rendering
-                    onRendered(function(){
-                        cell.getRow().normalizeHeight();
-                    });
+                    
                     
                     return element;
                 },
@@ -184,7 +175,7 @@ function handleData(results) {
             {
                 title: "Co-Authors",
                 field: "authors",
-                width: 250, // Fixed width
+                width: "20%", // Fixed width
                 formatter: function(cell, formatterParams, onRendered) {
                     var value = cell.getValue() || "";
                     var element = document.createElement("div");
@@ -193,10 +184,6 @@ function handleData(results) {
                     element.style.wordBreak = "break-word";
                     element.style.whiteSpace = "normal";
                     
-                    // Force row to adjust height after rendering
-                    onRendered(function(){
-                        cell.getRow().normalizeHeight();
-                    });
                     
                     return element;
                 },
@@ -234,14 +221,18 @@ function handleData(results) {
             }, 100);
         },
         renderComplete: function() {
-            // Force table to recalculate heights after all rows are rendered
-            this.rowManager.normalizeHeight();
+            // // Force table to recalculate heights after all rows are rendered
+            // this.rowManager.normalizeHeight();
             
             // Set an additional timeout to ensure heights are properly set
+            // setTimeout(() => {
+            //     this.rowManager.normalizeHeight();
+            //     this.redraw(true);
+            //     applyTableFixes(); // Apply fixes immediately after rendering
+            // }, 100);
             setTimeout(() => {
-                this.rowManager.normalizeHeight();
-                this.redraw(true);
-                applyTableFixes(); // Apply fixes immediately after rendering
+                publicationsTable.rowManager.normalizeHeight();
+                applyTableFixes();
             }, 100);
         }
     });
@@ -367,11 +358,9 @@ $(document).ready(function() {
         updateFilters();
     });
     
-    // Apply table fixes periodically to ensure wrapping
-    setInterval(applyTableFixes, 1000);
 
     // Handle window resize for responsive design
-    $(window).resize(function() {
+    $(window).resize(_.debounce(function() {
         if (publicationsTable) {
             publicationsTable.redraw(true);
             
@@ -381,7 +370,7 @@ $(document).ready(function() {
                 applyTableFixes();
             }, 200);
         }
-    });
+    }));
     
     // Track search field inputs
     $(document).on("input", "[tabulator-field='title'] > .tabulator-col-content > div > input", _.debounce(function(e) {
