@@ -151,6 +151,16 @@
             box-shadow: 0 2px 15px rgba(0,0,0,0.05);
             padding: 1rem;
             overflow-x: auto; /* Enable horizontal scrolling for the table container */
+            max-width: 100%;
+            width: 100%;
+        }
+        
+        /* Wider container for the table */
+        .container {
+            max-width: 1400px; /* Increased from the default Bootstrap container width */
+            padding-left: 15px;
+            padding-right: 15px;
+            width: 95%; /* Use most of the available width */
         }
         
         /* Table info and reset */
@@ -226,6 +236,37 @@
         .tabulator-cell {
             white-space: normal !important; /* Allow text wrapping */
             word-break: break-word; /* Break long words if needed */
+        }
+        
+        /* Special handling for title column */
+        .title-cell {
+            position: relative;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 4.8em; /* Approximately 3 lines of text */
+            line-height: 1.6;
+        }
+        
+        /* Title hover tooltip */
+        .title-tooltip {
+            display: none;
+            position: absolute;
+            z-index: 1000;
+            background-color: #fff;
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            padding: 8px 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            max-width: 500px;
+            left: 0;
+            top: 100%;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            pointer-events: none;
+        }
+        
+        .title-cell:hover .title-tooltip {
+            display: block;
         }
         
         /* Footer */
@@ -443,6 +484,11 @@
                 
                 <!-- Publications Table -->
                 <div id="academic-papers-table"></div>
+                
+                <!-- Helper text for title hover -->
+                <div class="helper-text" style="text-align: right; font-size: 0.8rem; color: #666; margin-top: 0.5rem;">
+                    <i class="fas fa-info-circle"></i> Hover over titles to see full text
+                </div>
             </div>
         </div>
     </main>
@@ -542,11 +588,35 @@
                     {
                         title: "Title",
                         field: "title",
-                        width: '40%', // Keep the original width
-                        minWidth: 250, // Ensure a minimum width
+                        width: '45%', // Increased width for title column
+                        minWidth: 300, // Increased minimum width
                         headerFilter: "input",
-                        formatter: "link",
-                        formatterParams: {urlField: "url", target: "_blank"},
+                        formatter: function(cell, formatterParams, onRendered) {
+                            // Get cell values
+                            var value = cell.getValue() || "";
+                            var url = cell.getRow().getData().url || "#";
+                            
+                            // Create cell content with tooltip
+                            var cellEl = document.createElement("div");
+                            cellEl.className = "title-cell";
+                            
+                            // Create link element
+                            var linkEl = document.createElement("a");
+                            linkEl.href = url;
+                            linkEl.target = "_blank";
+                            linkEl.textContent = value;
+                            
+                            // Create tooltip element
+                            var tooltipEl = document.createElement("div");
+                            tooltipEl.className = "title-tooltip";
+                            tooltipEl.textContent = value;
+                            
+                            // Add elements to cell
+                            cellEl.appendChild(linkEl);
+                            cellEl.appendChild(tooltipEl);
+                            
+                            return cellEl;
+                        },
                         headerFilterFunc: titleFunction,
                         headerFilterPlaceholder: "Search by Title",
                         headerSort: false
@@ -554,14 +624,14 @@
                     {
                         title: "Date",
                         field: "date", 
-                        width: '10%',
+                        width: '8%', // Slightly reduced to give more space to other columns
                         formatter: dateFormatter,
                         headerSort: false
                     },
                     {
                         title: "Publication",
                         field: "publication",
-                        width: "21%",
+                        width: "22%", // Slightly increased
                         formatter: "html",
                         headerSort: false,
                         headerFilter: "input",
@@ -570,7 +640,7 @@
                     {
                         title: "Co-Authors",
                         field: "authors",
-                        width: "29%",
+                        width: "25%", // Slightly reduced
                         headerSort: false,
                         headerFilter: "input",
                         headerFilterPlaceholder: "Search by Co-Authors"
