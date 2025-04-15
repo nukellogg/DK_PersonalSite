@@ -143,6 +143,16 @@
             min-width: 150px;
         }
         
+        /* Container and table container - ensure full width */
+        .container {
+            max-width: 95% !important; /* Override Bootstrap's container max-width */
+            width: 95% !important;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
         /* Table container */
         .table-container {
             margin-top: 1rem;
@@ -151,16 +161,7 @@
             box-shadow: 0 2px 15px rgba(0,0,0,0.05);
             padding: 1rem;
             overflow-x: auto; /* Enable horizontal scrolling for the table container */
-            max-width: 100%;
-            width: 100%;
-        }
-        
-        /* Wider container for the table */
-        .container {
-            max-width: 1400px; /* Increased from the default Bootstrap container width */
-            padding-left: 15px;
-            padding-right: 15px;
-            width: 95%; /* Use most of the available width */
+            width: 100% !important;
         }
         
         /* Table info and reset */
@@ -208,11 +209,11 @@
             to { transform: rotate(360deg); }
         }
         
-        /* Tabulator customizations */
+        /* Force Tabulator to respect widths */
         .tabulator {
+            width: 100% !important;
             border: none;
             background-color: transparent;
-            overflow-x: visible; /* Allow table to scroll horizontally */
         }
         
         .tabulator-header {
@@ -232,19 +233,38 @@
             background-color: rgba(240, 240, 240, 0.3);
         }
         
-        /* Fix for title column - prevent text cut-off */
+        /* Fix for title column - ensure proper wrapping */
         .tabulator-cell {
             white-space: normal !important; /* Allow text wrapping */
-            word-break: break-word; /* Break long words if needed */
+            word-break: break-word !important; /* Break long words if needed */
+            height: auto !important; /* Allow cells to expand vertically */
+            min-height: 40px; /* Minimum height for cells */
+            vertical-align: middle;
         }
         
         /* Special handling for title column */
         .title-cell {
             position: relative;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-height: 4.8em; /* Approximately 3 lines of text */
-            line-height: 1.6;
+            padding: 8px 4px;
+            line-height: 1.5;
+            height: auto !important;
+            width: 100%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            display: block;
+        }
+        
+        .title-cell a {
+            color: var(--primary-color);
+            text-decoration: none;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            display: inline;
+        }
+        
+        .title-cell a:hover {
+            text-decoration: underline;
         }
         
         /* Title hover tooltip */
@@ -255,8 +275,8 @@
             background-color: #fff;
             border: 1px solid var(--medium-gray);
             border-radius: 4px;
-            padding: 8px 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            padding: 10px 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             max-width: 500px;
             left: 0;
             top: 100%;
@@ -324,6 +344,13 @@
             
             .paper-type-option {
                 margin: 0.5rem 0;
+            }
+            
+            .container {
+                max-width: 100% !important;
+                width: 100% !important;
+                padding-left: 10px;
+                padding-right: 10px;
             }
         }
     </style>
@@ -577,8 +604,10 @@
                 initialSort: [
                     {column: "date", dir: "desc"}
                 ],
-                layout: "fitColumns",
-                responsiveLayout: "hide",
+                layout: "fitDataStretch", // Changed from fitColumns to better respect widths
+                resizableColumns: false, // Prevent column resizing
+                responsiveLayout: false, // Disable responsive layout changes
+                movableColumns: false, // Prevent column moving
                 columns: [
                     {title: "Citation Count", field: "citation", width: '0%', visible: false, headerSort: false},
                     {title: "Citation/Year", field: "citationYear", width: '0%', visible: false, headerSort: false},
@@ -588,9 +617,10 @@
                     {
                         title: "Title",
                         field: "title",
-                        width: '45%', // Increased width for title column
-                        minWidth: 300, // Increased minimum width
+                        width: '50%', // Increased width for title column
+                        minWidth: 350, // Ensure minimum width
                         headerFilter: "input",
+                        variableHeight: true, // Allow variable height for this column
                         formatter: function(cell, formatterParams, onRendered) {
                             // Get cell values
                             var value = cell.getValue() || "";
@@ -615,6 +645,11 @@
                             cellEl.appendChild(linkEl);
                             cellEl.appendChild(tooltipEl);
                             
+                            // Make sure cells resize after content is loaded
+                            onRendered(function(){
+                                cell.getRow().normalizeHeight();
+                            });
+                            
                             return cellEl;
                         },
                         headerFilterFunc: titleFunction,
@@ -624,32 +659,48 @@
                     {
                         title: "Date",
                         field: "date", 
-                        width: '8%', // Slightly reduced to give more space to other columns
+                        width: '7%',
                         formatter: dateFormatter,
                         headerSort: false
                     },
                     {
                         title: "Publication",
                         field: "publication",
-                        width: "22%", // Slightly increased
+                        width: "18%",
                         formatter: "html",
                         headerSort: false,
                         headerFilter: "input",
-                        headerFilterPlaceholder: "Search by Publication"
+                        headerFilterPlaceholder: "Search by Publication",
+                        variableHeight: true
                     },
                     {
                         title: "Co-Authors",
                         field: "authors",
-                        width: "25%", // Slightly reduced
+                        width: "25%",
                         headerSort: false,
                         headerFilter: "input",
-                        headerFilterPlaceholder: "Search by Co-Authors"
+                        headerFilterPlaceholder: "Search by Co-Authors",
+                        variableHeight: true
                     }
                 ],
+                rowFormatter: function(row) {
+                    // Ensure row height accommodates all content
+                    var data = row.getData();
+                    var titleLength = data.title ? data.title.length : 0;
+                    
+                    // If title is very long, make sure the row is taller
+                    if (titleLength > 150) {
+                        row.getElement().style.minHeight = "80px";
+                    }
+                },
                 dataFiltered: function (filters, rows) {
                     // Update paper count display
                     var div = document.getElementById('academic-papers-table-info');
                     div.innerHTML = '<span class="paper-count">' + rows.length + '</span> articles match your search criteria';
+                },
+                renderComplete: function() {
+                    // Force table to recalculate heights after all rows are rendered
+                    this.rowManager.normalizeHeight();
                 }
             });
             
@@ -745,6 +796,11 @@
             $(window).resize(function() {
                 if (publicationsTable) {
                     publicationsTable.redraw(true);
+                    
+                    // Force recalculation of row heights
+                    setTimeout(function() {
+                        publicationsTable.rowManager.normalizeHeight();
+                    }, 100);
                 }
             });
             
@@ -768,4 +824,4 @@
         }
     </script>
 </body>
-</html>
+</html
