@@ -15,7 +15,407 @@
     <script src="js/lodash.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="js/tabulator.min.js" type="text/javascript"></script>
-    <link href="css/publications-style.css" rel="stylesheet">
+    <style>
+        :root {
+    --primary-color: #4285F4;
+    --primary-light: #6fa8dc;
+    --primary-dark: #2a56c6;
+    --text-color: #333;
+    --light-gray: #f1f1f1;
+    --medium-gray: #e0e0e0;
+    --white: #ffffff;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-color);
+    background-color: var(--white);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header styles */
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.navbar {
+    padding: 0.5rem 2rem;
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: white !important;
+}
+
+.nav-link {
+    color: rgba(255,255,255,0.85) !important;
+    font-weight: 500;
+    margin: 0 0.5rem;
+    padding: 0.5rem 0.75rem !important;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: white !important;
+}
+
+/* Main content styles */
+main {
+    padding: 2rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+/* Paper type selector */
+.paper-type-selector {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.paper-type-option {
+    margin: 0 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.paper-type-option input[type="radio"] {
+    opacity: 0;
+    position: absolute;
+}
+
+.paper-type-option label {
+    cursor: pointer;
+    padding: 0.75rem 1.5rem;
+    border-radius: 30px;
+    background-color: var(--light-gray);
+    transition: all 0.3s ease;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.paper-type-option input[type="radio"]:checked + label {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Filter controls */
+.filters-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--light-gray);
+    border-radius: 10px;
+}
+
+.filter-group {
+    margin: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.filter-label {
+    margin-right: 0.5rem;
+    font-weight: 500;
+}
+
+select {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid var(--medium-gray);
+    background-color: white;
+    min-width: 150px;
+}
+
+/* Container and table container - ensure full width */
+.container {
+    max-width: 95% !important; /* Override Bootstrap's container max-width */
+    width: 95% !important;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Table container */
+.table-container {
+    margin-top: 1rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    padding: 1rem;
+    overflow-x: auto; /* Enable horizontal scrolling for the table container */
+    width: 100% !important;
+}
+
+/* Table info and reset */
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+.reset-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.reset-button:hover {
+    background-color: var(--primary-dark);
+}
+
+/* Loading spinner */
+.loading-container {
+    text-align: center;
+    padding: 2rem;
+}
+
+.spinner {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(66, 133, 244, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Force Tabulator to respect widths */
+.tabulator {
+    width: 100% !important;
+    border: none;
+    background-color: transparent;
+}
+
+.tabulator-header {
+    background-color: var(--light-gray);
+    border-bottom: 2px solid var(--primary-light);
+}
+
+.tabulator-row {
+    border-bottom: 1px solid var(--medium-gray);
+    height: auto !important;
+    min-height: 48px !important;
+}
+
+.tabulator-row:hover {
+    background-color: var(--light-gray) !important;
+}
+
+.tabulator-row.tabulator-row-even {
+    background-color: rgba(240, 240, 240, 0.3);
+}
+
+/* Fix for all cells - ensure proper wrapping */
+.tabulator-cell {
+    white-space: normal !important; /* Allow text wrapping */
+    word-break: break-word !important; /* Break long words if needed */
+    height: auto !important; /* Allow cells to expand vertically */
+    max-height: none !important;
+    min-height: 40px; /* Minimum height for cells */
+    vertical-align: middle;
+    overflow: visible !important; /* Critical - prevent cell content from being clipped */
+    padding: 8px !important; /* Ensure consistent padding */
+    line-height: 1.5 !important;
+    text-overflow: clip !important;
+}
+
+/* Apply text wrapping to all cell content */
+.tabulator-cell * {
+    white-space: normal !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+/* Force column widths to be fixed */
+.tabulator .tabulator-col {
+    word-wrap: break-word;
+}
+
+/* Make table layout fixed to enforce wrapping */
+.tabulator-table {
+    table-layout: fixed !important;
+}
+
+/* Ensure all columns handle long text */
+.tabulator-cell-wrapper {
+    position: relative;
+    width: 100%;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    line-height: 1.5 !important;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+/* Special handling for title column */
+.title-cell {
+    position: relative;
+    line-height: 1.5;
+    height: auto !important;
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    display: block;
+}
+
+.title-cell a {
+    color: var(--primary-color);
+    text-decoration: none;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: inline;
+    white-space: normal !important;
+}
+
+.title-cell a:hover {
+    text-decoration: underline;
+}
+
+/* Title hover tooltip */
+.title-tooltip {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    background-color: #fff;
+    border: 1px solid var(--medium-gray);
+    border-radius: 4px;
+    padding: 10px 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    left: 0;
+    top: 100%;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    pointer-events: none;
+}
+
+.title-cell:hover .title-tooltip {
+    display: block;
+}
+
+/* Prevent Tabulator from clipping content */
+.tabulator .tabulator-tableHolder {
+    overflow: visible !important;
+}
+
+/* Prevent Tabulator height restrictions */
+.tabulator-row .tabulator-cell, .tabulator-row .tabulator-row-handle {
+    max-height: none !important;
+}
+
+/* Publication cell specific styling */
+.publication-cell {
+    width: 100%;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+}
+
+/* Authors cell specific styling */
+.authors-cell {
+    width: 100%;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+}
+
+/* Footer */
+footer {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 2rem 0;
+    margin-top: 2rem;
+}
+
+.footer-content {
+    text-align: center;
+}
+
+.footer-content h4 {
+    margin-bottom: 1rem;
+}
+
+.footer-content h5, .footer-content h6 {
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+}
+
+/* Paper count badge */
+.paper-count {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 20px;
+    padding: 0.2rem 0.7rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .filters-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-group {
+        margin: 0.25rem 0;
+        width: 100%;
+    }
+    
+    select {
+        width: 100%;
+    }
+    
+    .paper-type-selector {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .paper-type-option {
+        margin: 0.5rem 0;
+    }
+    
+    .container {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+    </style>
 </head>
 
 <body>
