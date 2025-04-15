@@ -150,6 +150,7 @@
             border-radius: 10px;
             box-shadow: 0 2px 15px rgba(0,0,0,0.05);
             padding: 1rem;
+            overflow-x: auto; /* Enable horizontal scrolling for the table container */
         }
         
         /* Table info and reset */
@@ -201,6 +202,7 @@
         .tabulator {
             border: none;
             background-color: transparent;
+            overflow-x: visible; /* Allow table to scroll horizontally */
         }
         
         .tabulator-header {
@@ -218,6 +220,12 @@
         
         .tabulator-row.tabulator-row-even {
             background-color: rgba(240, 240, 240, 0.3);
+        }
+        
+        /* Fix for title column - prevent text cut-off */
+        .tabulator-cell {
+            white-space: normal !important; /* Allow text wrapping */
+            word-break: break-word; /* Break long words if needed */
         }
         
         /* Footer */
@@ -239,6 +247,17 @@
         .footer-content h5, .footer-content h6 {
             font-weight: 400;
             margin-bottom: 0.5rem;
+        }
+        
+        /* Paper count badge */
+        .paper-count {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 20px;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.85rem;
+            font-weight: 500;
         }
         
         /* Responsive adjustments */
@@ -265,17 +284,6 @@
             .paper-type-option {
                 margin: 0.5rem 0;
             }
-        }
-
-        /* Paper count badge */
-        .paper-count {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 20px;
-            padding: 0.2rem 0.7rem;
-            font-size: 0.85rem;
-            font-weight: 500;
         }
     </style>
 </head>
@@ -343,7 +351,7 @@
             <div class="filters-container">
                 <div class="filter-group">
                     <span class="filter-label">Sort by:</span>
-                    <select id="sort-field">
+                    <select id="sort-field" onchange="updateCounter('sort_counter', $('#sort-field').val())">
                         <option value="date">Date</option>
                         <option value="citation">Citation Count</option>
                         <option value="citationYear">Citation/Year</option>
@@ -352,7 +360,7 @@
                 
                 <div class="filter-group">
                     <span class="filter-label">Filter by Country:</span>
-                    <select id="country-field">
+                    <select id="country-field" onchange="updateCounter('country_counter', $('#country-field').val())">
                         <option value="">ALL</option>
                         <option value="Bangladesh">Bangladesh</option>
                         <option value="Benin">Benin</option>
@@ -391,7 +399,7 @@
                 
                 <div class="filter-group">
                     <span class="filter-label">Filter by Category:</span>
-                    <select id="category-field">
+                    <select id="category-field" onchange="updateCounter('category_counter', $('#category-field').val())">
                         <option value="">ALL</option>
                         <option value="Agriculture">Agriculture</option>
                         <option value="Behavioral Economics">Behavioral Economics</option>
@@ -423,7 +431,7 @@
             <!-- Table Container -->
             <div class="table-container">
                 <div class="table-header">
-                    <div id="publications-count"></div>
+                    <div id="academic-papers-table-info"></div>
                     <button id="resetBtn" class="reset-button">Reset Search</button>
                 </div>
                 
@@ -434,7 +442,7 @@
                 </div>
                 
                 <!-- Publications Table -->
-                <div id="publications-table"></div>
+                <div id="academic-papers-table"></div>
             </div>
         </div>
     </main>
@@ -469,13 +477,12 @@
         // Function to load data for the selected publication type
         function loadPublicationsData(paperType) {
             // Show loading indicator
-            console.log("Paper Type:", paperType)
             $('#loading-container').show();
-            $('#publications-table').hide();
+            $('#academic-papers-table').hide();
             
-            // Determine appropriate URL based on the paper type
+            // Use the working script URL from the old file
             const scriptUrl = `https://script.google.com/macros/s/AKfycbz2-MvSBcIm9b5bCaU_dpjrG54ZBcA-qPuGIwKbvBMUgAVtEK2axn_sX-iqUwVyTieEww/exec?prefix=handleData&type=${paperType}`;
-
+            
             // Remove any existing script elements
             const existingScript = document.getElementById('data-load-script');
             if (existingScript) {
@@ -492,7 +499,7 @@
         }
 
         // Function to handle title filtering
-        function titleFilterFunction(headerValue, rowValue, rowData, filterParams) {
+        function titleFunction(headerValue, rowValue, rowData, filterParams) {
             var searchStrings = headerValue.split(" ");
             var stringPresent = false;
 
@@ -511,32 +518,15 @@
         function handleData(results) {
             // Hide loading indicator
             $('#loading-container').hide();
-            $('#publications-table').show();
+            $('#academic-papers-table').show();
             
-
-            // Create or update the table with the data
-            function titleFunction(headerValue, rowValue, rowData, filterParams) {
-                var searchStrings = headerValue.split(" ");
-                var stringPresent = false;
-
-                $.each(searchStrings, function (j, searchString) {
-                    if (rowData.title.toLowerCase().includes(searchString.toLowerCase())) {
-                        stringPresent = true;
-                    } else {
-                        stringPresent = false;
-                        return false;
-                    }
-                });
-                return stringPresent;
-            }
-
             // If table already exists, destroy it to recreate
             if (publicationsTable) {
                 publicationsTable.destroy();
             }
             
             // Create new table with the data
-            publicationsTable = new Tabulator("#publications-table", {
+            publicationsTable = new Tabulator("#academic-papers-table", {
                 data: results,
                 initialSort: [
                     {column: "date", dir: "desc"}
@@ -552,25 +542,26 @@
                     {
                         title: "Title",
                         field: "title",
-                        widthGrow: 3,
+                        width: '40%', // Keep the original width
+                        minWidth: 250, // Ensure a minimum width
                         headerFilter: "input",
                         formatter: "link",
                         formatterParams: {urlField: "url", target: "_blank"},
-                        headerFilterFunc: titleFilterFunction,
+                        headerFilterFunc: titleFunction,
                         headerFilterPlaceholder: "Search by Title",
                         headerSort: false
                     },
                     {
                         title: "Date",
                         field: "date", 
-                        widthGrow: 1,
+                        width: '10%',
                         formatter: dateFormatter,
                         headerSort: false
                     },
                     {
                         title: "Publication",
                         field: "publication",
-                        widthGrow: 2,
+                        width: "21%",
                         formatter: "html",
                         headerSort: false,
                         headerFilter: "input",
@@ -579,7 +570,7 @@
                     {
                         title: "Co-Authors",
                         field: "authors",
-                        widthGrow: 2,
+                        width: "29%",
                         headerSort: false,
                         headerFilter: "input",
                         headerFilterPlaceholder: "Search by Co-Authors"
@@ -587,8 +578,8 @@
                 ],
                 dataFiltered: function (filters, rows) {
                     // Update paper count display
-                    var countDisplay = document.getElementById('publications-count');
-                    countDisplay.innerHTML = '<span class="paper-count">' + rows.length + '</span> articles match your search criteria';
+                    var div = document.getElementById('academic-papers-table-info');
+                    div.innerHTML = '<span class="paper-count">' + rows.length + '</span> articles match your search criteria';
                 }
             });
             
@@ -621,6 +612,25 @@
             }
         }
 
+        // Custom filter functions
+        function customFilter(data) {
+            return data.category.toLowerCase().includes($("#category-field").val().toLowerCase());
+        }
+
+        function updateCategoryFilter() {
+            var filter = customFilter;
+            publicationsTable.addFilter(filter, $("#category-field").val());
+        }
+
+        function customFilterCountry(data) {
+            return data.country.toLowerCase().includes($("#country-field").val().toLowerCase());
+        }
+
+        function updateCountryFilter() {
+            var filter = customFilterCountry;
+            publicationsTable.addFilter(filter, $("#country-field").val());
+        }
+
         // Initialize when document is ready
         $(document).ready(function() {
             // Initial data load
@@ -635,25 +645,19 @@
             
             // Handle sort field change
             $("#sort-field").change(function() {
-                const sortField = $(this).val();
-                updateCounter('sort_counter', sortField);
                 if (publicationsTable) {
-                    publicationsTable.setSort(sortField, 'desc');
+                    publicationsTable.setSort($("#sort-field").val(), 'desc');
                 }
             });
             
             // Handle category filter change
             $("#category-field").change(function() {
-                const category = $(this).val();
-                updateCounter('category_counter', category);
-                updateFilters();
+                updateCategoryFilter();
             });
             
             // Handle country filter change
             $("#country-field").change(function() {
-                const country = $(this).val();
-                updateCounter('country_counter', country);
-                updateFilters();
+                updateCountryFilter();
             });
             
             // Handle reset button
@@ -688,7 +692,7 @@
             }, 1500));
         });
         
-        // For backward compatibility
+        // For backward compatibility - in case the script calls display
         function display(results) {
             handleData(results);
         }
