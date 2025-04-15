@@ -15,6 +15,7 @@
     <script src="js/lodash.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="js/tabulator.min.js" type="text/javascript"></script>
+    
     <style>
         :root {
             --primary-color: #4285F4;
@@ -25,7 +26,7 @@
             --medium-gray: #e0e0e0;
             --white: #ffffff;
         }
-
+        
         body {
             font-family: 'Roboto', sans-serif;
             color: var(--text-color);
@@ -34,7 +35,7 @@
             margin: 0;
             padding: 0;
         }
-
+        
         /* Header styles */
         header {
             background-color: var(--primary-color);
@@ -42,17 +43,17 @@
             padding: 1rem 0;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-
+        
         .navbar {
             padding: 0.5rem 2rem;
         }
-
+        
         .navbar-brand {
             font-size: 1.8rem;
             font-weight: 600;
             color: white !important;
         }
-
+        
         .nav-link {
             color: rgba(255,255,255,0.85) !important;
             font-weight: 500;
@@ -60,22 +61,22 @@
             padding: 0.5rem 0.75rem !important;
             transition: color 0.3s ease;
         }
-
+        
         .nav-link:hover, .nav-link.active {
             color: white !important;
         }
-
+        
         /* Main content styles */
         main {
             padding: 2rem 0;
         }
-
+        
         .section-title {
             text-align: center;
             margin-bottom: 2rem;
             font-weight: 500;
         }
-
+        
         /* Paper type selector */
         .paper-type-selector {
             display: flex;
@@ -83,18 +84,18 @@
             margin-bottom: 2rem;
             flex-wrap: wrap;
         }
-
+        
         .paper-type-option {
             margin: 0 1rem;
             position: relative;
             display: inline-block;
         }
-
+        
         .paper-type-option input[type="radio"] {
             opacity: 0;
             position: absolute;
         }
-
+        
         .paper-type-option label {
             cursor: pointer;
             padding: 0.75rem 1.5rem;
@@ -104,13 +105,13 @@
             font-weight: 500;
             display: inline-block;
         }
-
+        
         .paper-type-option input[type="radio"]:checked + label {
             background-color: var(--primary-color);
             color: white;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-
+        
         /* Filter controls */
         .filters-container {
             display: flex;
@@ -122,18 +123,18 @@
             background-color: var(--light-gray);
             border-radius: 10px;
         }
-
+        
         .filter-group {
             margin: 0.5rem;
             display: flex;
             align-items: center;
         }
-
+        
         .filter-label {
             margin-right: 0.5rem;
             font-weight: 500;
         }
-
+        
         select {
             padding: 0.5rem;
             border-radius: 5px;
@@ -141,7 +142,7 @@
             background-color: white;
             min-width: 150px;
         }
-
+        
         /* Container and table container - ensure full width */
         .container {
             max-width: 95% !important; /* Override Bootstrap's container max-width */
@@ -151,7 +152,7 @@
             margin-left: auto;
             margin-right: auto;
         }
-
+        
         /* Table container */
         .table-container {
             margin-top: 1rem;
@@ -162,17 +163,17 @@
             overflow-x: auto; /* Enable horizontal scrolling for the table container */
             width: 100% !important;
         }
-
+        
         /* Table info and reset */
         .table-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.5rem;
-            /* padding-bottom: 0.5rem; */
-            /* border-bottom: 1px solid var(--medium-gray); */
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--medium-gray);
         }
-
+        
         .reset-button {
             background-color: var(--primary-color);
             color: white;
@@ -183,17 +184,17 @@
             font-weight: 500;
             transition: background-color 0.3s ease;
         }
-
+        
         .reset-button:hover {
             background-color: var(--primary-dark);
         }
-
+        
         /* Loading spinner */
         .loading-container {
             text-align: center;
             padding: 2rem;
         }
-
+        
         .spinner {
             display: inline-block;
             width: 50px;
@@ -203,86 +204,48 @@
             border-top-color: var(--primary-color);
             animation: spin 1s ease-in-out infinite;
         }
-
+        
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-
+        
         /* Force Tabulator to respect widths */
         .tabulator {
             width: 100% !important;
             border: none;
             background-color: transparent;
-            margin-top: 0 !important;
-            padding-top: 0 !important;
         }
-
+        
         .tabulator-header {
             background-color: var(--light-gray);
             border-bottom: 2px solid var(--primary-light);
         }
-
+        
         .tabulator-row {
             border-bottom: 1px solid var(--medium-gray);
-            height: auto !important;
-            min-height: 48px !important;
         }
-
+        
         .tabulator-row:hover {
             background-color: var(--light-gray) !important;
         }
-
+        
         .tabulator-row.tabulator-row-even {
             background-color: rgba(240, 240, 240, 0.3);
         }
-
-        /* Fix for all cells - ensure proper wrapping */
+        
+        /* Fix for title column - ensure proper wrapping */
         .tabulator-cell {
             white-space: normal !important; /* Allow text wrapping */
             word-break: break-word !important; /* Break long words if needed */
             height: auto !important; /* Allow cells to expand vertically */
-            max-height: none !important;
             min-height: 40px; /* Minimum height for cells */
             vertical-align: middle;
-            overflow: visible !important; /* Critical - prevent cell content from being clipped */
-            padding: 8px !important; /* Ensure consistent padding */
-            line-height: 1.5 !important;
-            text-overflow: clip !important;
         }
-
-        /* Apply text wrapping to all cell content */
-        .tabulator-cell * {
-            white-space: normal !important;
-            word-break: break-word !important;
-            overflow-wrap: break-word !important;
-        }
-
-        /* Force column widths to be fixed */
-        .tabulator .tabulator-col {
-            word-wrap: break-word;
-        }
-
-        /* Make table layout fixed to enforce wrapping */
-        .tabulator-table {
-            table-layout: fixed !important;
-        }
-
-        /* Ensure all columns handle long text */
-        .tabulator-cell-wrapper {
-            position: relative;
-            width: 100%;
-            word-wrap: break-word !important;
-            overflow-wrap: break-word !important;
-            word-break: break-word !important;
-            line-height: 1.5 !important;
-            display: block;
-            margin: 0;
-            padding: 0;
-        }
-
+        
         /* Special handling for title column */
         .title-cell {
             position: relative;
+            padding: 8px 4px;
             line-height: 1.5;
             height: auto !important;
             width: 100%;
@@ -291,20 +254,19 @@
             word-break: break-word;
             display: block;
         }
-
+        
         .title-cell a {
             color: var(--primary-color);
             text-decoration: none;
             word-wrap: break-word;
             overflow-wrap: break-word;
             display: inline;
-            white-space: normal !important;
         }
-
+        
         .title-cell a:hover {
             text-decoration: underline;
         }
-
+        
         /* Title hover tooltip */
         .title-tooltip {
             display: none;
@@ -322,37 +284,11 @@
             color: var(--text-color);
             pointer-events: none;
         }
-
+        
         .title-cell:hover .title-tooltip {
             display: block;
         }
-
-        /* Prevent Tabulator from clipping content */
-        .tabulator .tabulator-tableHolder {
-            overflow: visible !important;
-        }
-
-        /* Prevent Tabulator height restrictions */
-        .tabulator-row .tabulator-cell, .tabulator-row .tabulator-row-handle {
-            max-height: none !important;
-        }
-
-        /* Publication cell specific styling */
-        .publication-cell {
-            width: 100%;
-            word-wrap: break-word !important;
-            overflow-wrap: break-word !important;
-            word-break: break-word !important;
-        }
-
-        /* Authors cell specific styling */
-        .authors-cell {
-            width: 100%;
-            word-wrap: break-word !important;
-            overflow-wrap: break-word !important;
-            word-break: break-word !important;
-        }
-
+        
         /* Footer */
         footer {
             background-color: var(--primary-color);
@@ -360,20 +296,20 @@
             padding: 2rem 0;
             margin-top: 2rem;
         }
-
+        
         .footer-content {
             text-align: center;
         }
-
+        
         .footer-content h4 {
             margin-bottom: 1rem;
         }
-
+        
         .footer-content h5, .footer-content h6 {
             font-weight: 400;
             margin-bottom: 0.5rem;
         }
-
+        
         /* Paper count badge */
         .paper-count {
             display: inline-block;
@@ -384,7 +320,7 @@
             font-size: 0.85rem;
             font-weight: 500;
         }
-
+        
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .filters-container {
@@ -421,6 +357,15 @@
 </head>
 
 <body>
+    <script>
+        var global_prev_vals = {};
+        async function updateCounter(counter, val=null) {
+            if(!(counter in global_prev_vals) || val === null || (global_prev_vals[counter] != val) && (val.length > 0) && (val !== "ALL")){
+                global_prev_vals[counter] = val;
+                await fetch(`https://script.google.com/macros/s/AKfycbwhVgwFUDnTsWmLkoEj-WyW_eOFTUF0ibJwNhXdCMZIT6bczSc--_MAof_0EpAIvwzqtQ/exec?action=incrementCounter&counter=${counter}`);
+            }
+        }
+    </script>
 
     <header>
         <nav class="navbar navbar-expand-lg">
@@ -590,6 +535,293 @@
 
     <script src="js/bootstrap.js"></script>
     
-    <script src="js/publications-script.js"></script>
+    <script>
+        // Format date for display
+        var dateFormatter = function (cell, formatterParams) {
+            var value = cell.getValue();
+            if (value) {
+                value = moment.utc(Date.parse(value)).format("MM/YYYY");
+            }
+            return value;
+        };
+
+        var publicationsTable;
+        
+        // Function to load data for the selected publication type
+        function loadPublicationsData(paperType) {
+            // Show loading indicator
+            $('#loading-container').show();
+            $('#academic-papers-table').hide();
+            
+            // Use the working script URL from the old file
+            const scriptUrl = `https://script.google.com/macros/s/AKfycbz2-MvSBcIm9b5bCaU_dpjrG54ZBcA-qPuGIwKbvBMUgAVtEK2axn_sX-iqUwVyTieEww/exec?prefix=handleData&type=${paperType}`;
+            
+            // Remove any existing script elements
+            const existingScript = document.getElementById('data-load-script');
+            if (existingScript) {
+                existingScript.remove();
+            }
+            
+            // Create dynamic script element to load data
+            const scriptElement = document.createElement('script');
+            scriptElement.src = scriptUrl;
+            scriptElement.id = 'data-load-script';
+            
+            // Add new script element to the document
+            document.body.appendChild(scriptElement);
+        }
+
+        // Function to handle title filtering
+        function titleFunction(headerValue, rowValue, rowData, filterParams) {
+            var searchStrings = headerValue.split(" ");
+            var stringPresent = false;
+
+            $.each(searchStrings, function (j, searchString) {
+                if (rowData.title.toLowerCase().includes(searchString.toLowerCase())) {
+                    stringPresent = true;
+                } else {
+                    stringPresent = false;
+                    return false;
+                }
+            });
+            return stringPresent;
+        }
+
+        // Function to handle the data once received from the server
+        function handleData(results) {
+            // Hide loading indicator
+            $('#loading-container').hide();
+            $('#academic-papers-table').show();
+            
+            // If table already exists, destroy it to recreate
+            if (publicationsTable) {
+                publicationsTable.destroy();
+            }
+            
+            // Create new table with the data
+            publicationsTable = new Tabulator("#academic-papers-table", {
+                data: results,
+                initialSort: [
+                    {column: "date", dir: "desc"}
+                ],
+                layout: "fitDataStretch", // Changed from fitColumns to better respect widths
+                resizableColumns: false, // Prevent column resizing
+                responsiveLayout: false, // Disable responsive layout changes
+                movableColumns: false, // Prevent column moving
+                columns: [
+                    {title: "Citation Count", field: "citation", width: '0%', visible: false, headerSort: false},
+                    {title: "Citation/Year", field: "citationYear", width: '0%', visible: false, headerSort: false},
+                    {title: "Category", field: "category", width: '0%', visible: false, headerSort: false},
+                    {title: "Type", field: "type", width: '0%', visible: false, headerSort: false},
+                    {title: "Country", field: "country", width: '0%', visible: false, headerSort: false},
+                    {
+                        title: "Title",
+                        field: "title",
+                        width: '50%', // Increased width for title column
+                        minWidth: 350, // Ensure minimum width
+                        headerFilter: "input",
+                        variableHeight: true, // Allow variable height for this column
+                        formatter: function(cell, formatterParams, onRendered) {
+                            // Get cell values
+                            var value = cell.getValue() || "";
+                            var url = cell.getRow().getData().url || "#";
+                            
+                            // Create cell content with tooltip
+                            var cellEl = document.createElement("div");
+                            cellEl.className = "title-cell";
+                            
+                            // Create link element
+                            var linkEl = document.createElement("a");
+                            linkEl.href = url;
+                            linkEl.target = "_blank";
+                            linkEl.textContent = value;
+                            
+                            // Create tooltip element
+                            var tooltipEl = document.createElement("div");
+                            tooltipEl.className = "title-tooltip";
+                            tooltipEl.textContent = value;
+                            
+                            // Add elements to cell
+                            cellEl.appendChild(linkEl);
+                            cellEl.appendChild(tooltipEl);
+                            
+                            // Make sure cells resize after content is loaded
+                            onRendered(function(){
+                                cell.getRow().normalizeHeight();
+                            });
+                            
+                            return cellEl;
+                        },
+                        headerFilterFunc: titleFunction,
+                        headerFilterPlaceholder: "Search by Title",
+                        headerSort: false
+                    },
+                    {
+                        title: "Date",
+                        field: "date", 
+                        width: '7%',
+                        formatter: dateFormatter,
+                        headerSort: false
+                    },
+                    {
+                        title: "Publication",
+                        field: "publication",
+                        width: "18%",
+                        formatter: "html",
+                        headerSort: false,
+                        headerFilter: "input",
+                        headerFilterPlaceholder: "Search by Publication",
+                        variableHeight: true
+                    },
+                    {
+                        title: "Co-Authors",
+                        field: "authors",
+                        width: "25%",
+                        headerSort: false,
+                        headerFilter: "input",
+                        headerFilterPlaceholder: "Search by Co-Authors",
+                        variableHeight: true
+                    }
+                ],
+                rowFormatter: function(row) {
+                    // Ensure row height accommodates all content
+                    var data = row.getData();
+                    var titleLength = data.title ? data.title.length : 0;
+                    
+                    // If title is very long, make sure the row is taller
+                    if (titleLength > 150) {
+                        row.getElement().style.minHeight = "80px";
+                    }
+                },
+                dataFiltered: function (filters, rows) {
+                    // Update paper count display
+                    var div = document.getElementById('academic-papers-table-info');
+                    div.innerHTML = '<span class="paper-count">' + rows.length + '</span> articles match your search criteria';
+                },
+                renderComplete: function() {
+                    // Force table to recalculate heights after all rows are rendered
+                    this.rowManager.normalizeHeight();
+                }
+            });
+            
+            // Apply any existing filters
+            updateFilters();
+        }
+
+        // Function to apply all filters
+        function updateFilters() {
+            if (publicationsTable) {
+                // Clear existing filters
+                publicationsTable.clearFilter();
+                
+                // Apply category filter if selected
+                if ($("#category-field").val()) {
+                    publicationsTable.addFilter(function(data) {
+                        return data.category && data.category.toLowerCase().includes($("#category-field").val().toLowerCase());
+                    });
+                }
+                
+                // Apply country filter if selected
+                if ($("#country-field").val()) {
+                    publicationsTable.addFilter(function(data) {
+                        return data.country && data.country.toLowerCase().includes($("#country-field").val().toLowerCase());
+                    });
+                }
+                
+                // Apply sort
+                publicationsTable.setSort($("#sort-field").val(), 'desc');
+            }
+        }
+
+        // Custom filter functions
+        function customFilter(data) {
+            return data.category.toLowerCase().includes($("#category-field").val().toLowerCase());
+        }
+
+        function updateCategoryFilter() {
+            var filter = customFilter;
+            publicationsTable.addFilter(filter, $("#category-field").val());
+        }
+
+        function customFilterCountry(data) {
+            return data.country.toLowerCase().includes($("#country-field").val().toLowerCase());
+        }
+
+        function updateCountryFilter() {
+            var filter = customFilterCountry;
+            publicationsTable.addFilter(filter, $("#country-field").val());
+        }
+
+        // Initialize when document is ready
+        $(document).ready(function() {
+            // Initial data load
+            loadPublicationsData($('input[name="paper-type"]:checked').val());
+            
+            // Handle paper type change
+            $('input[name="paper-type"]').change(function() {
+                const paperType = $(this).val();
+                updateCounter('type_counter', paperType);
+                loadPublicationsData(paperType);
+            });
+            
+            // Handle sort field change
+            $("#sort-field").change(function() {
+                if (publicationsTable) {
+                    publicationsTable.setSort($("#sort-field").val(), 'desc');
+                }
+            });
+            
+            // Handle category filter change
+            $("#category-field").change(function() {
+                updateCategoryFilter();
+            });
+            
+            // Handle country filter change
+            $("#country-field").change(function() {
+                updateCountryFilter();
+            });
+            
+            // Handle reset button
+            $("#resetBtn").click(function() {
+                if (publicationsTable) {
+                    publicationsTable.clearHeaderFilter();
+                }
+                $("#category-field").val('');
+                $("#country-field").val('');
+                $("#sort-field").val('date');
+                updateFilters();
+            });
+            
+            // Handle window resize for responsive design
+            $(window).resize(function() {
+                if (publicationsTable) {
+                    publicationsTable.redraw(true);
+                    
+                    // Force recalculation of row heights
+                    setTimeout(function() {
+                        publicationsTable.rowManager.normalizeHeight();
+                    }, 100);
+                }
+            });
+            
+            // Track search field inputs
+            $(document).on("input", "[tabulator-field='title'] > .tabulator-col-content > div > input", _.debounce(function(e) {
+                updateCounter("title_counter", e.target.value);
+            }, 1500));
+            
+            $(document).on("input", "[tabulator-field='publication'] > .tabulator-col-content > div > input", _.debounce(function(e) {
+                updateCounter("publication_counter", e.target.value);
+            }, 1500));
+            
+            $(document).on("input", "[tabulator-field='authors'] > .tabulator-col-content > div > input", _.debounce(function(e) {
+                updateCounter("coauth_counter", e.target.value);
+            }, 1500));
+        });
+        
+        // For backward compatibility - in case the script calls display
+        function display(results) {
+            handleData(results);
+        }
+    </script>
 </body>
 </html
