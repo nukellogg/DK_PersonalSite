@@ -106,8 +106,22 @@ function handleData(results) {
                 width: "50%", // Fixed width instead of percentage
                 headerFilter: "input",
                 variableHeight: true,
-                formatter: function(cell) {
-                    return cell.getValue() || "";
+                formatter: function(cell, formatterParams, onRendered) {
+                    var value = cell.getValue() || "";
+                    var url = cell.getRow().getData().url || "#";
+                    
+                    // Create element similar to publication cell
+                    var element = document.createElement("div");
+                    element.className = "title-cell";
+                    
+                    // Format HTML string with the link
+                    var htmlContent = '<a href="' + url + '" target="_blank">' + value + '</a>';
+                    element.innerHTML = htmlContent; // Use innerHTML like publication cell
+                    
+                    element.style.wordBreak = "break-word";
+                    element.style.whiteSpace = "normal";
+                    
+                    return element;
                 },
                 // formatter: function(cell, formatterParams, onRendered) {
                 //     // Get cell values
