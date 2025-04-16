@@ -114,9 +114,11 @@ function handleData(results) {
                     var element = document.createElement("div");
                     element.className = "title-cell";
                     
+                    element.setAttribute("data-url", url)
                     // Format HTML string with the link
-                    var htmlContent = '<a href="' + url + '" target="_blank">' + value + '</a>';
+                    var htmlContent = '<a href="' + url + '" target="_blank" data-url"' + url + '" >' + value + '</a>';
                     element.innerHTML = htmlContent; // Use innerHTML like publication cell
+                    element.style.cursor = "pointer";
                     
                     element.style.wordBreak = "break-word";
                     element.style.whiteSpace = "normal";
@@ -464,6 +466,47 @@ $(document).ready(function() {
             }
         }, true); // Use capture phase
     });
+
+    // Add this to your document ready function
+    document.addEventListener('click', function(e) {
+        // Check if we clicked on or inside a title cell
+        if (e.target.closest('.title-cell')) {
+            console.log('Title cell area clicked', e.target);
+            
+            // Try to find the URL from data attributes or parent elements
+            var url = null;
+            
+            // Check if clicked on a link directly
+            if (e.target.tagName === 'A' && e.target.href) {
+                url = e.target.href;
+            } 
+            // Check parent for link if we clicked on text inside a link
+            else if (e.target.parentElement.tagName === 'A' && e.target.parentElement.href) {
+                url = e.target.parentElement.href;
+            }
+            // Try to find the row data
+            else {
+                var row = e.target.closest('.tabulator-row');
+                if (row) {
+                    var rowId = row.getAttribute('data-id');
+                    if (rowId && publicationsTable) {
+                        var rowData = publicationsTable.getRow(rowId).getData();
+                        if (rowData && rowData.url) {
+                            url = rowData.url;
+                        }
+                    }
+                }
+            }
+            
+            // If we found a URL, try to open it
+            if (url && url !== '#') {
+                console.log('Opening URL:', url);
+                window.open(url, '_blank');
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }
+    }, true); // Using capture phase to get event before other handlers
 });
 
 // For backward compatibility - in case the script calls display
