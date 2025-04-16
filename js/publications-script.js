@@ -71,6 +71,12 @@ function handleData(results) {
     if (publicationsTable) {
         publicationsTable.destroy();
     }
+
+    // $(document).on('click', '.tabulator-link', function(e) {
+    //     e.stopPropagation();
+    //     window.open($(this).attr('href'), '_blank');
+    //     return false;
+    // });
     
     // Create new table with the data
     publicationsTable = new Tabulator("#academic-papers-table", {
@@ -78,9 +84,13 @@ function handleData(results) {
         selectable: false,
         rowClick: function(e, row) {
             // Check if the click was on a link
-            if (e.target.tagName === 'A' || e.target.parentElement.tagName === 'A') {
-                e.stopPropagation(); // Stop event from triggering row click
-                return false; // Prevent default row click action
+            if (e.target.tagName === 'A' || e.target.closest('a')) {
+                return ;
+            }
+        },
+        cellClick: function(e, cell) {
+            if (e.target.tagName === 'A' || e.target.closest('a')) {
+                return ;
             }
         },
         initialSort: [
@@ -106,11 +116,10 @@ function handleData(results) {
                 width: "50%", // Fixed width instead of percentage
                 headerFilter: "input",
                 variableHeight: true,
-                formatter: function(cell, formatterParams, onRendered) {
+                formatter: function(cell) {
                     var value = cell.getValue() || "";
                     var url = cell.getRow().getData().url || "#";
-                    
-                    return `<a href="${url}" target="_blank" class="title-link" style="cursor:pointer; display:block; width:100%; height:100%;">${value}</a>`;
+                    return `<a href="${url}" target="_blank" class="tabulator-link" rel="noopener noreferrer">${value}</a>`;
                 },
                 // formatter: function(cell, formatterParams, onRendered) {
                 //     // Get cell values
@@ -256,7 +265,7 @@ function handleData(results) {
             // }, 100);
             setTimeout(() => {
                 publicationsTable.rowManager.normalizeHeight();
-                applyTableFixes();
+                // applyTableFixes();
             }, 100);
         }
     });
@@ -294,7 +303,7 @@ function applyTableFixes() {
     
     // Force table to recalculate row heights
     publicationsTable.rowManager.normalizeHeight();
-    publicationsTable.redraw(true);
+    // publicationsTable.redraw(true);
 }
 
 
