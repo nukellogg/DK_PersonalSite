@@ -279,6 +279,7 @@
             padding: 8px !important; /* Ensure consistent padding */
             line-height: 1.5 !important;
             text-overflow: clip !important;
+            pointer-events: auto !important; /* Ensure click events work in cells */
         }
 
         /* Apply text wrapping to all cell content */
@@ -330,6 +331,10 @@
             overflow-wrap: break-word;
             display: inline;
             white-space: normal !important;
+            position: relative; /* Ensure proper stacking context */
+            z-index: 5; /* Make sure link is on top of other elements */
+            cursor: pointer !important; /* Force pointer cursor */
+            pointer-events: auto !important; /* Ensure click events work */
         }
 
         .title-cell a:hover {

@@ -111,14 +111,17 @@ function handleData(results) {
                     var linkEl = document.createElement("a");
                     linkEl.href = url;
                     linkEl.target = "_blank";
+                    linkEl.rel = "noopener noreferrer";
                     linkEl.textContent = value;
                     linkEl.style.wordBreak = "break-word";
                     linkEl.style.whiteSpace = "normal";
                     
-                    // Create tooltip element
-                    var tooltipEl = document.createElement("div");
-                    tooltipEl.className = "title-tooltip";
-                    tooltipEl.textContent = value;
+                    // Add explicit click handler to ensure link works
+                    linkEl.addEventListener('click', function(e) {
+                        e.stopPropagation(); // Stop event from bubbling up to parent elements
+                        window.open(url, '_blank'); // Explicitly open link in new tab
+                        return false; // Prevent default action
+                    });
                     
                     // Add elements to cell
                     cellEl.appendChild(linkEl);
