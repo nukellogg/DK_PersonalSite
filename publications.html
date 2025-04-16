@@ -257,6 +257,7 @@
             border-bottom: 1px solid var(--medium-gray);
             height: auto !important;
             min-height: 48px !important;
+            pointer-events: auto !important; /* Ensure click events work */
         }
 
         .tabulator-row:hover {
@@ -287,6 +288,7 @@
             white-space: normal !important;
             word-break: break-word !important;
             overflow-wrap: break-word !important;
+            pointer-events: auto !important; /* Ensure click events work in cells */
         }
 
         /* Force column widths to be fixed */
@@ -322,6 +324,7 @@
             overflow-wrap: break-word;
             word-break: break-word;
             display: block;
+            pointer-events: auto !important; /* Ensure click events work */
         }
 
         .title-cell a {
@@ -332,7 +335,7 @@
             display: inline;
             white-space: normal !important;
             position: relative; /* Ensure proper stacking context */
-            z-index: 5; /* Make sure link is on top of other elements */
+            z-index: 10 !important; /* Make sure link is on top of other elements */
             cursor: pointer !important; /* Force pointer cursor */
             pointer-events: auto !important; /* Ensure click events work */
         }

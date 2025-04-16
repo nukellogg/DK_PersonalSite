@@ -111,33 +111,40 @@ function handleData(results) {
                     var value = cell.getValue() || "";
                     var url = cell.getRow().getData().url || "#";
                     
-                    // Create cell content with tooltip
-                    var cellEl = document.createElement("div");
-                    cellEl.className = "title-cell";
+                    // // Create cell content with tooltip
+                    // var cellEl = document.createElement("div");
+                    // cellEl.className = "title-cell";
                     
-                    // Create link element
-                    var linkEl = document.createElement("a");
-                    linkEl.href = url;
-                    linkEl.target = "_blank";
-                    linkEl.rel = "noopener noreferrer";
-                    linkEl.textContent = value;
-                    linkEl.style.wordBreak = "break-word";
-                    linkEl.style.whiteSpace = "normal";
+                    // // Create link element
+                    // var linkEl = document.createElement("a");
+                    // linkEl.href = url;
+                    // linkEl.target = "_blank";
+                    // linkEl.rel = "noopener noreferrer";
+                    // linkEl.textContent = value;
+                    // linkEl.style.wordBreak = "break-word";
+                    // linkEl.style.whiteSpace = "normal";
                     
-                    // Add explicit click handler to ensure link works
-                    linkEl.addEventListener('click', function(e) {
-                        e.stopPropagation(); // Stop event from bubbling up to parent elements
-                        window.open(url, '_blank'); // Explicitly open link in new tab
-                        return false; // Prevent default action
-                    });
+                    // // Add explicit click handler to ensure link works
+                    // linkEl.addEventListener('click', function(e) {
+                    //     e.stopPropagation(); // Stop event from bubbling up to parent elements
+                    //     window.open(url, '_blank'); // Explicitly open link in new tab
+                    //     return false; // Prevent default action
+                    // });
                     
-                    // Add elements to cell
-                    cellEl.appendChild(linkEl);
-                    // cellEl.appendChild(tooltipEl);
+                    // // Add elements to cell
+                    // cellEl.appendChild(linkEl);
+                    // // cellEl.appendChild(tooltipEl);
                     
                     
                     
-                    return cellEl;
+                    // return cellEl;
+                    // Use direct HTML to ensure link works
+                    var html = `<div class="title-cell"><a href="${url}" target="_blank" 
+                    onclick="window.open('${url.replace(/'/g, "\\'")}', '_blank'); return false;"
+                    style="cursor:pointer; display:inline-block; width:100%; height:100%;">
+                    ${value}</a></div>`;
+
+                    return html;
                 },
                 headerFilterFunc: titleFunction,
                 headerFilterPlaceholder: "Search by Title",
