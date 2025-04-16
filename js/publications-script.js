@@ -122,7 +122,7 @@ function handleData(results) {
                     
                     // Add elements to cell
                     cellEl.appendChild(linkEl);
-                    cellEl.appendChild(tooltipEl);
+                    // cellEl.appendChild(tooltipEl);
                     
                     
                     
