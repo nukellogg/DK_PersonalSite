@@ -75,6 +75,14 @@ function handleData(results) {
     // Create new table with the data
     publicationsTable = new Tabulator("#academic-papers-table", {
         data: results,
+        selectable: false,
+        rowClick: function(e, row) {
+            // Check if the click was on a link
+            if (e.target.tagName === 'A' || e.target.parentElement.tagName === 'A') {
+                e.stopPropagation(); // Stop event from triggering row click
+                return false; // Prevent default row click action
+            }
+        },
         initialSort: [
             {column: "date", dir: "desc"}
         ],
@@ -408,6 +416,15 @@ $(document).ready(function() {
             }
         }, 300);
     }, 1500));
+
+    document.querySelectorAll('#academic-papers-table').forEach(function(element) {
+        element.addEventListener('click', function(e) {
+            console.log('Table click event target:', e.target);
+            if (e.target.tagName === 'A' || e.target.closest('a')) {
+                console.log('Link clicked');
+            }
+        }, true); // Use capture phase
+    });
 });
 
 // For backward compatibility - in case the script calls display
