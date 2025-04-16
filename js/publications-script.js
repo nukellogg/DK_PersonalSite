@@ -106,46 +106,49 @@ function handleData(results) {
                 width: "50%", // Fixed width instead of percentage
                 headerFilter: "input",
                 variableHeight: true,
-                formatter: function(cell, formatterParams, onRendered) {
-                    // Get cell values
-                    var value = cell.getValue() || "";
-                    var url = cell.getRow().getData().url || "#";
-                    
-                    // // Create cell content with tooltip
-                    // var cellEl = document.createElement("div");
-                    // cellEl.className = "title-cell";
-                    
-                    // // Create link element
-                    // var linkEl = document.createElement("a");
-                    // linkEl.href = url;
-                    // linkEl.target = "_blank";
-                    // linkEl.rel = "noopener noreferrer";
-                    // linkEl.textContent = value;
-                    // linkEl.style.wordBreak = "break-word";
-                    // linkEl.style.whiteSpace = "normal";
-                    
-                    // // Add explicit click handler to ensure link works
-                    // linkEl.addEventListener('click', function(e) {
-                    //     e.stopPropagation(); // Stop event from bubbling up to parent elements
-                    //     window.open(url, '_blank'); // Explicitly open link in new tab
-                    //     return false; // Prevent default action
-                    // });
-                    
-                    // // Add elements to cell
-                    // cellEl.appendChild(linkEl);
-                    // // cellEl.appendChild(tooltipEl);
-                    
-                    
-                    
-                    // return cellEl;
-                    // Use direct HTML to ensure link works
-                    var html = `<div class="title-cell"><a href="${url}" target="_blank" 
-                    onclick="window.open('${url.replace(/'/g, "\\'")}', '_blank'); return false;"
-                    style="cursor:pointer; display:inline-block; width:100%; height:100%;">
-                    ${value}</a></div>`;
-
-                    return html;
+                formatter: function(cell) {
+                    return cell.getValue() || "";
                 },
+                // formatter: function(cell, formatterParams, onRendered) {
+                //     // Get cell values
+                //     var value = cell.getValue() || "";
+                //     var url = cell.getRow().getData().url || "#";
+                    
+                //     // // Create cell content with tooltip
+                //     // var cellEl = document.createElement("div");
+                //     // cellEl.className = "title-cell";
+                    
+                //     // // Create link element
+                //     // var linkEl = document.createElement("a");
+                //     // linkEl.href = url;
+                //     // linkEl.target = "_blank";
+                //     // linkEl.rel = "noopener noreferrer";
+                //     // linkEl.textContent = value;
+                //     // linkEl.style.wordBreak = "break-word";
+                //     // linkEl.style.whiteSpace = "normal";
+                    
+                //     // // Add explicit click handler to ensure link works
+                //     // linkEl.addEventListener('click', function(e) {
+                //     //     e.stopPropagation(); // Stop event from bubbling up to parent elements
+                //     //     window.open(url, '_blank'); // Explicitly open link in new tab
+                //     //     return false; // Prevent default action
+                //     // });
+                    
+                //     // // Add elements to cell
+                //     // cellEl.appendChild(linkEl);
+                //     // // cellEl.appendChild(tooltipEl);
+                    
+                    
+                    
+                //     // return cellEl;
+                //     // Use direct HTML to ensure link works
+                //     var html = `<div class="title-cell"><a href="${url}" target="_blank" 
+                //     onclick="window.open('${url.replace(/'/g, "\\'")}', '_blank'); return false;"
+                //     style="cursor:pointer; display:inline-block; width:100%; height:100%;">
+                //     ${value}</a></div>`;
+
+                //     return html;
+                // },
                 headerFilterFunc: titleFunction,
                 headerFilterPlaceholder: "Search by Title",
                 headerSort: false
@@ -255,6 +258,21 @@ function handleData(results) {
         }
     });
     
+    publicationsTable.on("cellClick", function(e, cell){
+        if(cell.getField() === "title") {
+            var rowData = cell.getRow().getData();
+            if(rowData.url && rowData.url !== "#") {
+                // Force URL opening
+                var win = window.open(rowData.url, '_blank');
+                if (win) {
+                    win.focus();
+                }
+                // Prevent other event handlers
+                e.stopPropagation();
+            }
+        }
+    });
+
     // Apply any existing filters
     updateFilters();
     

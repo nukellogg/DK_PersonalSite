@@ -325,6 +325,7 @@
             word-break: break-word;
             display: block;
             pointer-events: auto !important; /* Ensure click events work */
+            z-index: 100;
         }
 
         .title-cell a {
@@ -332,10 +333,12 @@
             text-decoration: none;
             word-wrap: break-word;
             overflow-wrap: break-word;
-            display: inline;
+            display: inline-block;
+            width: 100%;
+            height: 100%;
             white-space: normal !important;
             position: relative; /* Ensure proper stacking context */
-            z-index: 10 !important; /* Make sure link is on top of other elements */
+            z-index: 101 !important; /* Make sure link is on top of other elements */
             cursor: pointer !important; /* Force pointer cursor */
             pointer-events: auto !important; /* Ensure click events work */
         }
@@ -369,6 +372,10 @@
         /* Prevent Tabulator from clipping content */
         .tabulator .tabulator-tableHolder {
             overflow: visible !important;
+        }
+
+        .tabulator-row .tabulator-cell {
+            pointer-events: initial !important; /* Ensure click events work */
         }
 
         /* Prevent Tabulator height restrictions */
