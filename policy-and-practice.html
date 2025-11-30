@@ -2,15 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta content="IE=edge" http-equiv="X-UA-Compatible">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>Professor Dean Karlan - Publications</title>
-    <link href="images/favicon.ico" rel="shortcut icon" type="image/icon"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Professor Dean Karlan</title>
+    <link rel="shortcut icon" type="image/icon" href="images/favicon.ico"/>
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,600,700,800" rel="stylesheet">
-    <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
-    <link href="css/tabulator_bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.14.0/css/mdbootstrap.min.css" rel="stylesheet">
     <script src="js/jquery.min.js" type="text/javascript"></script>
     <script src="js/lodash.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
@@ -70,7 +71,7 @@
 
         /* Main content styles */
         main {
-            padding-top: 70px; /* Reduced to match navbar height */
+            padding-top: 100px; /* Reduced to match navbar height */
             padding-bottom: 2rem;
             padding-left: 15px;
             padding-right: 15px;
@@ -81,6 +82,10 @@
             text-align: center;
             margin-bottom: 2rem;
             font-weight: 400;
+            background-color: var(--light-gray);
+            padding: 1rem;
+            border-bottom: 2px solid var(--primary-light);
+            font-size: 1.5rem;
         }
 
         /* Paper type selector */
@@ -156,8 +161,8 @@
 
         /* Container and table container - ensure full width */
         main .container {
-            max-width: 95% !important; /* Override Bootstrap's container max-width */
-            width: 95% !important;
+            max-width: 100% !important; /* Override Bootstrap's container max-width */
+            width: 100% !important;
             padding-left: 15px;
             padding-right: 15px;
             margin-left: auto;
@@ -184,23 +189,68 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 0.5rem;
-            /* padding-bottom: 0.5rem; */
-            /* border-bottom: 1px solid var(--medium-gray); */
         }
 
-        .reset-button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.3s ease;
+        /* Publications/Policy Table specific styles */
+        .policy-table, .tabulator, .publications-table {
+            width: 100% !important;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
         }
 
-        .reset-button:hover {
-            background-color: var(--primary-dark);
+        .policy-table th, .policy-table td,
+        .publications-table th, .publications-table td,
+        .tabulator .tabulator-cell {
+            padding: 8px !important;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: middle;
+            white-space: normal !important;
+            word-break: break-word !important;
+            line-height: 1.5 !important;
+        }
+
+        .policy-table th, .publications-table th,
+        .tabulator .tabulator-header .tabulator-col {
+            background: #333;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .policy-table tr:last-child td,
+        .publications-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tabulator-header {
+            background-color: var(--light-gray);
+            border-bottom: 2px solid var(--primary-light);
+        }
+
+        .tabulator-row {
+            border-bottom: 1px solid var(--medium-gray);
+            min-height: 48px !important;
+            pointer-events: auto !important;
+        }
+
+        .tabulator-row:hover {
+            background-color: var(--light-gray) !important;
+        }
+
+        .tabulator-row.tabulator-row-even {
+            background-color: rgba(240, 240, 240, 0.3);
+        }
+
+        .tabulator .tabulator-tableHolder {
+            overflow: visible !important;
+        }
+
+        .tabulator-cell {
+            overflow: visible !important;
+            text-overflow: clip !important;
+            pointer-events: auto !important;
         }
 
         /* Loading spinner */
@@ -484,162 +534,115 @@
         }
     </style>
 </head>
-
 <body>
-
-    <header class="header fixed-top">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-            <a class="navbar-brand logo-wrap" href="index.html">
-                <span style="font-weight:600; font-size:25px; color: #e9e9e9">Professor Dean Karlan</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="menu">
-                <ul class="navbar-nav ml-auto mt-lg-0 ">
-                    <li class="js_nav_item nav-item"><a class="nav-link nav-item-child nav-item-hover" href="index.html">Home</a></li>
-                    <li class="js_nav_item nav-item"><a class="nav-link nav-item-child nav-item-hover" download="Dean Karlan" href="https://drive.google.com/file/d/1klr4amsGQiRd1-GQgl9wvYz988Md7pvq/view?usp=sharing">CV</a></li>
-                    <li class="js_nav_item nav-item"><a class="nav-link nav-item-child nav-item-hover" href="publications.html">Publications</a></li>
-                    <li class="js_nav_item nav-item"><a class="nav-link nav-item-child nav-item-hover" href="books.html">Books</a></li>
-                    <li class="js_nav_item nav-item"><a class="nav-link nav-item-child nav-item-hover" href="pictures.html">Photos</a></li>
-                    <li class="js_nav_item nav-item"><a class="nav-link nav-item-child nav-item-hover" href="policy-and-practice.html">US Foreign AID</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-
+        <header class="header fixed-top">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+                <a class="navbar-brand logo-wrap" href="index.html">
+                    <span style="font-weight:600; font-size:25px; color: #e9e9e9">Professor Dean Karlan</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menu">
+                    <ul class="navbar-nav ml-auto mt-lg-0 ">
+                        <li class="js_nav_item nav-item"><a class="nav-link nav-item-child nav-item-hover" href="index.html">Home</a></li>
+                        <li class="js_nav_item nav-item"><a class="nav-link nav-item-child nav-item-hover" download="Dean Karlan" href="https://drive.google.com/file/d/1klr4amsGQiRd1-GQgl9wvYz988Md7pvq/view?usp=sharing">CV</a></li>
+                        <li class="js_nav_item nav-item"><a class="nav-link nav-item-child nav-item-hover" href="publications.html">Publications</a></li>
+                        <li class="js_nav_item nav-item"><a class="nav-link nav-item-child nav-item-hover" href="books.html">Books</a></li>
+                        <li class="js_nav_item nav-item"><a class="nav-link nav-item-child nav-item-hover" href="pictures.html">Photos</a></li>
+                        <li class="js_nav_item nav-item"><a class="nav-link nav-item-child nav-item-hover" href="policy-and-practice.html">US Foreign AID</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
     <main>
         <div class="container">
             <div class="three-column-header">
                 <div class="column-left"></div>
-                    <div class="column-center">
-                        <h1 class="section-title">Publications</h1>
-                    </div>
+                <div class="column-center">
+                    <h1 class="section-title">Policy and Practice of Foreign USAID</h1>
+                </div>
                 <div class="column-right"></div>
             </div>
-            
-            <!-- Paper Type Selector (Radio Buttons) -->
+
+            <!-- Section Selector for all 5 sections -->
             <div class="paper-type-selector">
                 <div class="paper-type-option">
-                    <input type="radio" name="paper-type" id="academic-papers" value="Academic-Papers" checked>
-                    <label for="academic-papers">Academic Papers</label>
+                    <input type="radio" name="section-type" id="Op-ed" value="opeds-blogs" checked>
+                    <label for="opeds-blogs">Op-eds / Blogs</label>
                 </div>
                 <div class="paper-type-option">
-                    <input type="radio" name="paper-type" id="review-articles" value="Academic-Reviews">
-                    <label for="review-articles">Review Articles</label>
+                    <input type="radio" name="section-type" id="Media" value="media-podcasts">
+                    <label for="media-podcasts">Media, Podcasts, and Public Talks</label>
                 </div>
                 <div class="paper-type-option">
-                    <input type="radio" name="paper-type" id="non-academic" value="Non-Academic-Writing">
-                    <label for="non-academic">Non-Academic Writing</label>
+                    <input type="radio" name="section-type" id="usaid-oce" value="usaid-outputs">
+                    <label for="usaid-outputs">USAID Office of the Chief Economist Outputs (2022-2025)</label>
+                </div>
+                <div class="paper-type-option">
+                    <input type="radio" name="section-type" id="evidence-reviews" value="systematic-reviews">
+                    <label for="systematic-reviews">Evidence Systematic Review Papers</label>
+                </div>
+                <div class="paper-type-option">
+                    <input type="radio" name="section-type" id="links" value="links-of-interest">
+                    <label for="links-of-interest">Links of Interest</label>
                 </div>
             </div>
-            
-            <!-- Filters -->
-            <div class="filters-container">
-                <div class="filter-group">
-                    <span class="filter-label">Sort by:</span>
-                    <select id="sort-field" onchange="updateCounter('sort_counter', $('#sort-field').val())">
-                        <option value="date">Date</option>
-                        <option value="citation">Citation Count</option>
-                        <option value="citationYear">Citation/Year</option>
-                    </select>
-                </div>
-                
-                <div class="filter-group">
-                    <span class="filter-label">Filter by Country:</span>
-                    <select id="country-field" onchange="updateCounter('country_counter', $('#country-field').val())">
-                        <option value="">ALL</option>
-                        <option value="Bangladesh">Bangladesh</option>
-                        <option value="Benin">Benin</option>
-                        <option value="Bolivia">Bolivia</option>
-                        <option value="Burkina Faso">Burkina Faso</option>
-                        <option value="Chile">Chile</option>
-                        <option value="Colombia">Colombia</option>
-                        <option value="Egypt">Egypt</option>
-                        <option value="Ethiopia">Ethiopia</option>
-                        <option value="Ghana">Ghana</option>
-                        <option value="Honduras">Honduras</option>
-                        <option value="India">India</option>
-                        <option value="Jordan">Jordan</option>
-                        <option value="Kenya">Kenya</option>
-                        <option value="Malawi">Malawi</option>
-                        <option value="Mali">Mali</option>
-                        <option value="Mexico">Mexico</option>
-                        <option value="Morocco">Morocco</option>
-                        <option value="Namibia">Namibia</option>
-                        <option value="Nepal">Nepal</option>
-                        <option value="Niger">Niger</option>
-                        <option value="Pakistan">Pakistan</option>
-                        <option value="Peru">Peru</option>
-                        <option value="Philippines">Philippines</option>
-                        <option value="Rwanda">Rwanda</option>
-                        <option value="Sierra Leone">Sierra Leone</option>
-                        <option value="South Africa">South Africa</option>
-                        <option value="Togo">Togo</option>
-                        <option value="Turkey">Turkey</option>
-                        <option value="Uganda">Uganda</option>
-                        <option value="USA">USA</option>
-                        <option value="Yemen">Yemen</option>
-                        <option value="Zambia">Zambia</option>
-                    </select>
-                </div>
-                
-                <div class="filter-group">
-                    <span class="filter-label">Filter by Category:</span>
-                    <select id="category-field" onchange="updateCounter('category_counter', $('#category-field').val())">
-                        <option value="">ALL</option>
-                        <option value="Agriculture">Agriculture</option>
-                        <option value="Behavioral Economics">Behavioral Economics</option>
-                        <option value="Charitable Giving">Charitable Giving</option>
-                        <option value="COVID-19">COVID-19</option>
-                        <option value="Education">Education</option>
-                        <option value="Entrepreneurship">Entrepreneurship</option>
-                        <option value="Financial Education">Financial Education</option>
-                        <option value="Halloween">Halloween</option>
-                        <option value="Health">Health</option>
-                        <option value="Household Bargaining">Household Bargaining</option>
-                        <option value="Household Finance">Household Finance</option>
-                        <option value="Machine Learning">Machine Learning</option>
-                        <option value="Managerial Capital">Managerial Capital</option>
-                        <option value="Methodological">Methodological</option>
-                        <option value="Microcredit">Microcredit</option>
-                        <option value="Microsavings">Microsavings</option>
-                        <option value="Political Economy">Political Economy</option>
-                        <option value="Religion">Religion</option>
-                        <option value="Risk">Risk</option>
-                        <option value="Smoking Cessation">Smoking Cessation</option>
-                        <option value="Social Capital">Social Capital</option>
-                        <option value="Social Protection">Social Protection</option>
-                        <option value="Teaching">Teaching</option>
-                    </select>
+
+            <!-- Section Content Containers with loading spinner for each table -->
+            <div id="opeds-blogs-section" class="section-content">
+                <h2 class="section-title">Op-eds / Blogs</h2>
+                <div class="table-container">
+                    <div class="loading-container" id="loading-opeds-blogs">
+                        <div class="spinner"></div>
+                        <p>Loading op-eds / blogs...</p>
+                    </div>
+                    <div id="opeds-blogs-table"></div>
                 </div>
             </div>
-            
-            <!-- Table Container -->
-            <div class="table-container">
-                <div class="table-header">
-                    <div id="academic-papers-table-info"></div>
-                    <button id="resetBtn" class="reset-button">Reset Search</button>
+            <div id="media-podcasts-section" class="section-content" style="display:none;">
+                <h2 class="section-title">Media, Podcasts, and Public Talks</h2>
+                <div class="table-container">
+                    <div class="loading-container" id="loading-media-podcasts">
+                        <div class="spinner"></div>
+                        <p>Loading media, podcasts, and public talks...</p>
+                    </div>
+                    <div id="media-podcasts-table"></div>
                 </div>
-                
-                <!-- Loading Spinner -->
-                <div id="loading-container" class="loading-container">
-                    <div class="spinner"></div>
-                    <p>Loading publications...</p>
+            </div>
+            <div id="usaid-outputs-section" class="section-content" style="display:none;">
+                <h2 class="section-title">USAID Office of the Chief Economist Outputs (2022-2025)</h2>
+                <div class="table-container">
+                    <div class="loading-container" id="loading-usaid-outputs">
+                        <div class="spinner"></div>
+                        <p>Loading USAID outputs...</p>
+                    </div>
+                    <div id="usaid-outputs-table"></div>
                 </div>
-                
-                <!-- Publications Table -->
-                <div id="academic-papers-table"></div>
-                
-                <!-- Helper text for title hover -->
-                <!-- <div class="helper-text" style="text-align: right; font-size: 0.8rem; color: #666; margin-top: 0.5rem;">
-                    <i class="fas fa-info-circle"></i> Hover over titles for more details
-                </div> -->
+            </div>
+            <div id="systematic-reviews-section" class="section-content" style="display:none;">
+                <h2 class="section-title">Evidence Systematic Review Papers</h2>
+                <div class="table-container">
+                    <div class="loading-container" id="loading-systematic-reviews">
+                        <div class="spinner"></div>
+                        <p>Loading systematic reviews...</p>
+                    </div>
+                    <div id="systematic-reviews-table"></div>
+                </div>
+            </div>
+            <div id="links-of-interest-section" class="section-content" style="display:none;">
+                <h2 class="section-title">Links of Interest</h2>
+                <div class="table-container">
+                    <div class="loading-container" id="loading-links-of-interest">
+                        <div class="spinner"></div>
+                        <p>Loading links of interest...</p>
+                    </div>
+                    <div id="links-of-interest-table"></div>
+                </div>
             </div>
         </div>
     </main>
-
     <footer id="footer" role="contentinfo">
     <div class="container">
         <div class="footer-area">
@@ -651,16 +654,26 @@
                     <h6>2211 Campus Drive, Room 4441</h6>
                     <h6>Evanston, IL 60208</h6>
                     <h6>dean.karlan@gmail.com</h6>
-
                 </div>
             </div>
         </div>
     </div>
-    </footer>
-
-
+</footer>
     <script src="js/bootstrap.js"></script>
-    
-    <script src="js/publications-script.js"></script>
+    <script src="js/policy-and-practice-script.js"></script>
+    <script>
+        // JS to toggle sections
+        const radios = document.querySelectorAll('input[name="section-type"]');
+        radios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.querySelectorAll('.section-content').forEach(sec => sec.style.display = 'none');
+                if(this.value === 'opeds-blogs') document.getElementById('opeds-blogs-section').style.display = 'block';
+                if(this.value === 'media-podcasts') document.getElementById('media-podcasts-section').style.display = 'block';
+                if(this.value === 'usaid-outputs') document.getElementById('usaid-outputs-section').style.display = 'block';
+                if(this.value === 'systematic-reviews') document.getElementById('systematic-reviews-section').style.display = 'block';
+                if(this.value === 'links-of-interest') document.getElementById('links-of-interest-section').style.display = 'block';
+            });
+        });
+    </script>
 </body>
 </html>

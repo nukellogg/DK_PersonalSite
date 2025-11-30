@@ -8,17 +8,100 @@
     <title>Professor Dean Karlan</title>
     <link rel="shortcut icon" type="image/icon" href="images/favicon.ico"/>
     <link href="css/bootstrap.css" rel="stylesheet">
-
+    <link href="css/style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,600,700,800" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-
-    <link href="css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.14.0/css/mdb.min.css" rel="stylesheet">
 
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="js/jquery.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #4285F4;
+            --primary-light: #6fa8dc;
+            --primary-dark: #2a56c6;
+            --text-color: #333;
+            --light-gray: #f1f1f1;
+            --medium-gray: #e0e0e0;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-color);
+            background-color: var(--white);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header styles */
+        header {
+            background: none;
+            box-shadow: none;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: var(--primary-color) !important;
+            color: white;
+            padding: 0.5rem 2rem;
+        }
+
+        .navbar-brand.logo-wrap span {
+            color: white !important;
+        }
+
+        .nav-link,
+        .nav-link.nav-item-child,
+        .nav-link.nav-item-hover {
+            color: rgba(255,255,255,0.85) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            padding: 0.5rem 0.75rem !important;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+        }
+
+        main {
+            padding-top: 70px;
+            padding-bottom: 2rem;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            width: 100%;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+        }
+
+        .footer-content {
+            text-align: center;
+            padding: 0;
+        }
+
+        .footer-content h4 {
+            margin-bottom: 1rem;
+            color: #2C7CF6;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .footer-content h5, .footer-content h6 {
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+    </style>
 
 </head>
 
@@ -33,30 +116,17 @@
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="menu">
             <ul class="navbar-nav ml-auto mt-lg-0 ">
-                <li class="js_nav-item nav-item"><a class="nav-link  nav-item-child nav-item-hover"
-                                                    href="index.html">Home</a>
-                </li>
-                <li class="js_nav-item nav-item"><a class="nav-link nav-item-child nav-item-hover"
-                                                    download="Dean Karlan"
-                                                    href="https://drive.google.com/file/d/1klr4amsGQiRd1-GQgl9wvYz988Md7pvq/view?usp=sharing">CV</a></li>
-                
-                <li class="js_nav-item nav-item"><a class="nav-link nav-item-child nav-item-hover"
-                    href="Academic-Papers.html">Publications</a>
-                </li>
-                <li class="js_nav-item nav-item"><a class="nav-link nav-item-child nav-item-hover"
-                                                    href="books.html">Books</a>
-                </li>
-                <li class="js_nav-item nav-item"><a class="nav-link nav-item-child nav-item-hover"
-                                                    href="pictures.html">Photos</a>
-                </li>
-
+                <li class="js_nav-item nav-item"><a class="nav-link nav-item-child nav-item-hover" href="index.html">Home</a></li>
+                <li class="js_nav-item nav-item"><a class="nav-link nav-item-child nav-item-hover" download="Dean Karlan" href="https://drive.google.com/file/d/1klr4amsGQiRd1-GQgl9wvYz988Md7pvq/view?usp=sharing">CV</a></li>
+                <li class="js_nav-item nav-item"><a class="nav-link nav-item-child nav-item-hover" href="publications.html">Publications</a></li>
+                <li class="js_nav-item nav-item"><a class="nav-link nav-item-child nav-item-hover" href="books.html">Books</a></li>
+                <li class="js_nav-item nav-item"><a class="nav-link nav-item-child nav-item-hover" href="pictures.html">Photos</a></li>
+                <li class="js_nav-item nav-item"><a class="nav-link nav-item-child nav-item-hover" href="policy-and-practice.html">US Foreign AID</a></li>
             </ul>
         </div>
     </nav>
-
 </header>
 
 <main role="main">
@@ -93,7 +163,7 @@
                                             document.write( "<span class=\"year alignleft\">" + moment.utc(Date.parse(album.year)).format("MM/YYYY") + "</span>" + "&nbsp;&nbsp;&nbsp;&nbsp;" );
                                         }
 
-                                        document.write(           "<a target=\"_blank\"\n" +
+                                        document.write(           "<a target=\"_blank\">\n" +
                                             "                                   href=\"" + album.url + "\">" +
                                             album.title +
                                             "                                </a>" + " " +
@@ -117,7 +187,7 @@
                                             document.write( "<span class=\"year alignleft\">" + moment.utc(Date.parse(album.year)).format("MM/YYYY") + "</span>" + "&nbsp;&nbsp;&nbsp;&nbsp;" );
                                         }
 
-                                        document.write(  "<a target=\"_blank\"\n" +
+                                        document.write(  "<a target=\"_blank\">\n" +
                                             "                                   href=\"" + album.url + "\">" +
                                             album.title +
                                             "                                </a>" + " " +
@@ -141,7 +211,7 @@
                                             document.write( "<span class=\"year alignleft\">" + moment.utc(Date.parse(album.year)).format("MM/YYYY") + "</span>" + "&nbsp;&nbsp;&nbsp;&nbsp;" );
                                         }
 
-                                        document.write(        "<a target=\"_blank\"\n" +
+                                        document.write(        "<a target=\"_blank\">\n" +
                                             "                                   href=\"" + album.url + "\">" +
                                             album.title +
                                             "                                </a>" + " " +
@@ -165,7 +235,7 @@
                                             document.write( "<span class=\"year alignleft\">" + moment.utc(Date.parse(album.year)).format("MM/YYYY") + "</span>" + "&nbsp;&nbsp;&nbsp;&nbsp;" );
                                         }
 
-                                        document.write(  "<a target=\"_blank\"\n" +
+                                        document.write(  "<a target=\"_blank\">\n" +
                                             "                                   href=\"" + album.url + "\">" +
                                             album.title +
                                             "                                </a>" + " " +
@@ -195,20 +265,18 @@
 <footer id="footer" role="contentinfo">
     <div class="container">
         <div class="footer-area">
-            <p class="footer-content">
-            <div class="col-xs-12">
-                <h4 class="text-uppercase" style="color: #2C7CF6">Dean Karlan</h4>
-                <h5>Kellogg School of Management | Northwestern University</h5>
-                <h6>Kellogg Global Hub</h6>
-                <h6>2211 Campus Drive, Room 4441</h6>
-                <h6>Evanston, IL 60208</h6>
-                <h6>dean.karlan AT gmail.com</h6>
-
+            <div class="footer-content">
+                <div class="col-xs-12">
+                    <h4 class="text-uppercase" style="color: #2C7CF6">Dean Karlan</h4>
+                    <h5>Kellogg School of Management | Northwestern University</h5>
+                    <h6>Kellogg Global Hub</h6>
+                    <h6>2211 Campus Drive, Room 4441</h6>
+                    <h6>Evanston, IL 60208</h6>
+                    <h6>dean.karlan@gmail.com</h6>
+                </div>
             </div>
-            </p>
         </div>
     </div>
-
 </footer>
 
 <script src="js/bootstrap.js"></script>
