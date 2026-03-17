@@ -2687,8 +2687,8 @@ function sortPubs(col) {
   rows.sort((a, b) => {
     let valA, valB;
     if (col === 'title') {
-      valA = a.dataset.title || '';
-      valB = b.dataset.title || '';
+      valA = (a.dataset.title || '').replace(/^[^a-z]+/, '');
+      valB = (b.dataset.title || '').replace(/^[^a-z]+/, '');
     } else if (col === 'date') {
       valA = a.dataset.date || '';
       valB = b.dataset.date || '';
