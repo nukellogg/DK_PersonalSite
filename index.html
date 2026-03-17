@@ -2983,7 +2983,7 @@ function refreshFromSheets() {
         var name = (f[0] || '').trim();
         var role = (f[1] || '').trim();
         var link = (f[2] || '').trim();
-        if (!name || name.toLowerCase().indexOf('more to come') !== -1) return;
+        if (!name) return;
         var li = document.createElement('li');
         var roleSpan = role ? '<span class="alumni-role">— ' + escHTML(role) + '</span>' : '';
         if (link) {
