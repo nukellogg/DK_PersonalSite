@@ -1889,11 +1889,11 @@ Summary of key results there.</td>
     <ul class="oce-doc-list">
       <li>
         <span class="doc-icon">&#128196;</span>
-        <a href="https://drive.google.com/file/d/1FA7BoIJig3X9Ngg-2IhjCXyk7eNdpikE/view?usp=drive_link" target="_blank">Cost-Effectiveness Position Paper</a>
+        <a href="https://drive.google.com/file/d/1FA7BoIJig3X9Ngg-2IhjCXyk7eNdpikE/view?usp=drive_link" target="_blank">Cost-Effectiveness Position Paper</a> — Oct 2024
       </li>
       <li>
         <span class="doc-icon">&#128196;</span>
-        <a href="https://drive.google.com/file/d/1RzAWzATzJKFprVdZtHH62NUBLwyNJNTU/view?usp=drive_link" target="_blank">Direct Money Transfers (aka Cash Transfers) Position Paper</a>
+        <a href="https://drive.google.com/file/d/1RzAWzATzJKFprVdZtHH62NUBLwyNJNTU/view?usp=drive_link" target="_blank">Direct Money Transfers (aka Cash Transfers) Position Paper</a> — Oct 2024
       </li>
     </ul>
   </div>
@@ -1903,15 +1903,13 @@ Summary of key results there.</td>
     <h3>Media</h3>
     <ul class="oce-media-list">
       <li>
-        <a href="https://drive.google.com/file/d/1BBsgmckEV2P-CTf0-IeqePnWEaldpq3w/view?usp=drive_link" target="_blank">Why Dean Karlan, chief economist of USAID, resigned on Tuesday (NPR Goats and Soda)</a>
-        <span class="media-date">Feb 26, 2025</span>
+        <a href="https://thehill.com/opinion/international/5215080-reimagined-foreign-aid-strategy/" target="_blank">A theory and evidence test for strategic international aid</a> — The Hill — Mar 2025
       </li>
       <li>
-        <a href="https://thehill.com/opinion/international/5215080-reimagined-foreign-aid-strategy/" target="_blank">Reimagined Foreign Aid Strategy (Op-Ed, The Hill)</a>
+        <a href="https://drive.google.com/file/d/1BBsgmckEV2P-CTf0-IeqePnWEaldpq3w/view?usp=drive_link" target="_blank">Why Dean Karlan, chief economist of USAID, resigned on Tuesday</a> — NPR — Feb 2025
       </li>
       <li>
-        <a href="https://www.vox.com/future-perfect/23875344/dean-karlan-usaid-foreign-aid" target="_blank">The US hired a leading economist to fix how it allocates foreign aid. Here's his plan</a>
-        <span class="media-date">Sep 19, 2023</span>
+        <a href="https://www.vox.com/future-perfect/23875344/dean-karlan-usaid-foreign-aid" target="_blank">The US hired a leading economist to fix how it allocates foreign aid. Here's his plan</a> — Vox — Sep 2023
       </li>
     </ul>
   </div>
@@ -2910,11 +2908,17 @@ function refreshFromSheets() {
         var title = (f[1] || '').trim();
         var url = (f[2] || '').trim();
         var date = (f[3] || '').trim();
+        var outlet = (f[4] || '').trim();
         if (!title || !url) return;
+        var dateDisplay = '';
+        if (date) {
+          var dp = parseDate(date);
+          dateDisplay = dp.display;
+        }
         if (type === 'OCE Documents') {
-          docs.push({ title: title, url: url });
+          docs.push({ title: title, url: url, date: dateDisplay });
         } else if (type === 'Media') {
-          media.push({ title: title, url: url, date: date });
+          media.push({ title: title, url: url, date: dateDisplay, outlet: outlet });
         } else if (type === 'Photo') {
           photos.push({ title: title, url: url });
         }
@@ -2926,7 +2930,8 @@ function refreshFromSheets() {
         docList.innerHTML = '';
         docs.forEach(function(d) {
           var li = document.createElement('li');
-          li.innerHTML = '<span class="doc-icon">&#128196;</span><a href="' + escHTML(d.url) + '" target="_blank">' + escHTML(d.title) + '</a>';
+          var suffix = d.date ? ' — ' + escHTML(d.date) : '';
+          li.innerHTML = '<span class="doc-icon">&#128196;</span><a href="' + escHTML(d.url) + '" target="_blank">' + escHTML(d.title) + '</a>' + suffix;
           docList.appendChild(li);
         });
       }
@@ -2937,7 +2942,11 @@ function refreshFromSheets() {
         mediaList.innerHTML = '';
         media.forEach(function(m) {
           var li = document.createElement('li');
-          li.innerHTML = '<a href="' + escHTML(m.url) + '" target="_blank">' + escHTML(m.title) + '</a>' + (m.date ? '<span class="media-date">' + escHTML(m.date) + '</span>' : '');
+          var mediaSuffix = '';
+          if (m.outlet && m.date) mediaSuffix = ' — ' + escHTML(m.outlet) + ' — ' + escHTML(m.date);
+          else if (m.outlet) mediaSuffix = ' — ' + escHTML(m.outlet);
+          else if (m.date) mediaSuffix = ' — ' + escHTML(m.date);
+          li.innerHTML = '<a href="' + escHTML(m.url) + '" target="_blank">' + escHTML(m.title) + '</a>' + mediaSuffix;
           mediaList.appendChild(li);
         });
       }
@@ -2970,16 +2979,17 @@ function refreshFromSheets() {
       if (!alumniList) return;
       alumniList.innerHTML = '';
       rows.forEach(function(f) {
-        if (f.length < 2 || !f[0]) return;
+        if (!f[0]) return;
         var name = (f[0] || '').trim();
         var role = (f[1] || '').trim();
         var link = (f[2] || '').trim();
         if (!name || name.toLowerCase().indexOf('more to come') !== -1) return;
         var li = document.createElement('li');
+        var roleSpan = role ? '<span class="alumni-role">— ' + escHTML(role) + '</span>' : '';
         if (link) {
-          li.innerHTML = '<a href="' + escHTML(link) + '" target="_blank">' + escHTML(name) + '</a><span class="alumni-role">— ' + escHTML(role) + '</span>';
+          li.innerHTML = '<a href="' + escHTML(link) + '" target="_blank">' + escHTML(name) + '</a>' + roleSpan;
         } else {
-          li.innerHTML = '<span>' + escHTML(name) + '</span><span class="alumni-role">— ' + escHTML(role) + '</span>';
+          li.innerHTML = '<span>' + escHTML(name) + '</span>' + roleSpan;
         }
         alumniList.appendChild(li);
       });
