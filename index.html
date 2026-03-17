@@ -2775,6 +2775,7 @@ function refreshFromSheets() {
         } else { field += ch; }
       }
     }
+    if (field || fields.length) fields.push(field.trim());
     if (fields.length >= 2) result.push(fields);
     return result;
   }
