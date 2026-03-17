@@ -173,12 +173,12 @@
   <div class="nav-inner">
     <div class="site-name">Dean Karlan</div>
     <ul>
-      <li><a href="#" class="active" onclick="showPage('home', this); return false;">Home</a></li>
+      <li><a href="/" class="active" onclick="showPage('home', this); return false;">Home</a></li>
       <li><a href="https://drive.google.com/file/d/1ew7vB3uoib5L1WZr1g5mdxZ8Z6TP7IA9/view?usp=drive_link" target="_blank">CV</a></li>
-      <li><a href="#" onclick="showPage('publications', this); return false;">Publications</a></li>
-      <li><a href="#" onclick="showPage('books', this); return false;">Books</a></li>
-      <li><a href="#" onclick="showPage('oce', this); return false;" style="text-align:center; line-height:1.3;">OCE@USAID<br>Museum</a></li>
-      <li><a href="#" onclick="showPage('photos', this); return false;">Photos</a></li>
+      <li><a href="/publications" onclick="showPage('publications', this); return false;">Publications</a></li>
+      <li><a href="/books" onclick="showPage('books', this); return false;">Books</a></li>
+      <li><a href="/usaid" onclick="showPage('oce', this); return false;" style="text-align:center; line-height:1.3;">OCE@USAID<br>Museum</a></li>
+      <li><a href="/photos" onclick="showPage('photos', this); return false;">Photos</a></li>
     </ul>
   </div>
 </nav>
@@ -2536,14 +2536,49 @@ Summary of key results there.</td>
 </footer>
 
 <script>
-function showPage(id, el) {
+var pageRoutes = { home: '/', publications: '/publications', books: '/books', oce: '/usaid', photos: '/photos' };
+var routeToPage = { '/': 'home', '/publications': 'publications', '/books': 'books', '/usaid': 'usaid', '/oce': 'usaid', '/photos': 'photos' };
+
+function showPage(id, el, skipPush) {
+  // Map 'usaid' route to 'oce' element id
+  var elId = (id === 'usaid') ? 'oce' : id;
+  var routeId = (id === 'oce') ? 'oce' : (id === 'usaid' ? 'oce' : id);
   document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('nav li a').forEach(a => a.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  document.getElementById(elId).classList.add('active');
   if (el) el.classList.add('active');
+  else {
+    // Highlight correct nav link
+    var navLinks = document.querySelectorAll('nav li a');
+    navLinks.forEach(function(a) {
+      var match = a.getAttribute('onclick') || '';
+      if (match.indexOf("'" + id + "'") !== -1 || match.indexOf("'" + elId + "'") !== -1) a.classList.add('active');
+    });
+  }
   window.scrollTo(0, 0);
-  if (id === 'photos') { initPhotoBanner(); initTravelMap(); }
+  if (elId === 'photos') { initPhotoBanner(); initTravelMap(); }
+  // Update URL
+  var path = pageRoutes[elId] || pageRoutes[id] || '/';
+  if (!skipPush) history.pushState({ page: id }, '', path);
 }
+
+// Handle browser back/forward
+window.addEventListener('popstate', function(e) {
+  var page = (e.state && e.state.page) ? e.state.page : 'home';
+  showPage(page, null, true);
+});
+
+// Load correct page from URL on initial load
+(function() {
+  var path = window.location.pathname.replace(/\/+$/, '') || '/';
+  var pages = { '/': 'home', '/publications': 'publications', '/books': 'books', '/usaid': 'oce', '/photos': 'photos' };
+  var page = pages[path] || 'home';
+  if (page !== 'home') {
+    showPage(page, null, true);
+  }
+  // Replace initial history state
+  history.replaceState({ page: page }, '', path || '/');
+})();
 
 var bannerPhotoPool = [
   'images/banner/IMG_0234.jpg','images/banner/IMG_0510.JPG','images/banner/IMG_0714.JPG',
@@ -2856,6 +2891,101 @@ function refreshFromSheets() {
     })
     .catch(function(e) {
       console.error('Refresh photos failed:', e);
+    });
+
+  // Refresh USAID Museum (Documents & Media from gid=0, Alumni from gid=184429750)
+  var USAID_SHEET_ID = '1sd3qFDIvT7_p2jcP6QtosGVKPH4de3jk1ZC8XEESIb0';
+
+  // Documents & Media tab
+  fetch('https://docs.google.com/spreadsheets/d/' + USAID_SHEET_ID + '/gviz/tq?tqx=out:csv&gid=0')
+    .then(function(r) { return r.text(); })
+    .then(function(csv) {
+      var rows = parseCSV(csv);
+      var docs = [];
+      var media = [];
+      var photos = [];
+      rows.forEach(function(f) {
+        if (f.length < 3 || !f[1]) return;
+        var type = (f[0] || '').trim();
+        var title = (f[1] || '').trim();
+        var url = (f[2] || '').trim();
+        var date = (f[3] || '').trim();
+        if (!title || !url) return;
+        if (type === 'OCE Documents') {
+          docs.push({ title: title, url: url });
+        } else if (type === 'Media') {
+          media.push({ title: title, url: url, date: date });
+        } else if (type === 'Photo') {
+          photos.push({ title: title, url: url });
+        }
+      });
+
+      // Update documents
+      var docList = document.querySelector('#oce .oce-doc-list');
+      if (docList && docs.length) {
+        docList.innerHTML = '';
+        docs.forEach(function(d) {
+          var li = document.createElement('li');
+          li.innerHTML = '<span class="doc-icon">&#128196;</span><a href="' + escHTML(d.url) + '" target="_blank">' + escHTML(d.title) + '</a>';
+          docList.appendChild(li);
+        });
+      }
+
+      // Update media
+      var mediaList = document.querySelector('#oce .oce-media-list');
+      if (mediaList && media.length) {
+        mediaList.innerHTML = '';
+        media.forEach(function(m) {
+          var li = document.createElement('li');
+          li.innerHTML = '<a href="' + escHTML(m.url) + '" target="_blank">' + escHTML(m.title) + '</a>' + (m.date ? '<span class="media-date">' + escHTML(m.date) + '</span>' : '');
+          mediaList.appendChild(li);
+        });
+      }
+
+      // Update photos if any
+      var photoCollage = document.querySelector('#oce .oce-photo-collage');
+      if (photoCollage && photos.length) {
+        photoCollage.innerHTML = '';
+        photos.forEach(function(p) {
+          var fileId = '';
+          var m = p.url.match(/\/d\/([^/]+)/);
+          if (m) fileId = m[1];
+          var div = document.createElement('div');
+          div.className = 'photo-thumb';
+          div.innerHTML = '<a href="' + escHTML(p.url) + '" target="_blank"><img src="https://drive.google.com/thumbnail?id=' + escHTML(fileId) + '&sz=w400" alt="' + escHTML(p.title) + '"></a>';
+          photoCollage.appendChild(div);
+        });
+      }
+    })
+    .catch(function(e) {
+      console.error('Refresh USAID docs/media failed:', e);
+    });
+
+  // Alumni tab
+  fetch('https://docs.google.com/spreadsheets/d/' + USAID_SHEET_ID + '/gviz/tq?tqx=out:csv&gid=184429750')
+    .then(function(r) { return r.text(); })
+    .then(function(csv) {
+      var rows = parseCSV(csv);
+      var alumniList = document.querySelector('#oce .oce-alumni-list');
+      if (!alumniList) return;
+      alumniList.innerHTML = '';
+      rows.forEach(function(f) {
+        if (f.length < 2 || !f[0]) return;
+        var name = (f[0] || '').trim();
+        var role = (f[1] || '').trim();
+        var link = (f[2] || '').trim();
+        if (!name || name.toLowerCase().indexOf('more to come') !== -1) return;
+        var li = document.createElement('li');
+        if (link) {
+          li.innerHTML = '<a href="' + escHTML(link) + '" target="_blank">' + escHTML(name) + '</a><span class="alumni-role">— ' + escHTML(role) + '</span>';
+        } else {
+          li.innerHTML = '<span>' + escHTML(name) + '</span><span class="alumni-role">— ' + escHTML(role) + '</span>';
+        }
+        alumniList.appendChild(li);
+      });
+    })
+    .catch(function(e) {
+      console.error('Refresh USAID alumni failed:', e);
     });
 }
 </script>
