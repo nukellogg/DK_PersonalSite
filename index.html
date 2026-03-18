@@ -2891,6 +2891,9 @@ function refreshFromSheets() {
       });
       // Rebuild map markers from new data
       initTravelMap();
+      if (travelMap) travelMap.invalidateSize();
+      // Re-randomize banner photos
+      initPhotoBanner();
     })
     .catch(function(e) {
       console.error('Refresh photos failed:', e);
