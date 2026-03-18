@@ -2571,16 +2571,7 @@ window.addEventListener('popstate', function(e) {
 });
 
 // Load correct page from URL on initial load
-(function() {
-  var path = window.location.pathname.replace(/\/+$/, '') || '/';
-  var pages = { '/': 'home', '/publications': 'publications', '/books': 'books', '/usaid': 'oce', '/photos': 'photos' };
-  var page = pages[path] || 'home';
-  if (page !== 'home') {
-    showPage(page, null, true);
-  }
-  // Replace initial history state
-  history.replaceState({ page: page }, '', path || '/');
-})();
+// URL routing moved to DOMContentLoaded below
 
 var bannerPhotoPool = [
   '/images/banner/IMG_0234.jpg','/images/banner/IMG_0510.JPG','/images/banner/IMG_0714.JPG',
@@ -2713,7 +2704,18 @@ function filterPubs() {
 }
 
 // Run filter on page load so only Academic shows by default
-document.addEventListener('DOMContentLoaded', function() { sortPubs('date'); filterPubs(); });
+document.addEventListener('DOMContentLoaded', function() {
+  // Route to correct page from URL
+  var path = window.location.pathname.replace(/\/+$/, '') || '/';
+  var pages = { '/': 'home', '/publications': 'publications', '/books': 'books', '/usaid': 'oce', '/photos': 'photos' };
+  var page = pages[path] || 'home';
+  if (page !== 'home') {
+    showPage(page, null, true);
+  }
+  history.replaceState({ page: page }, '', path || '/');
+  sortPubs('date');
+  filterPubs();
+});
 
 // Publications sorting
 let sortState = { col: 'date', asc: true };
