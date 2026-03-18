@@ -2583,14 +2583,14 @@ window.addEventListener('popstate', function(e) {
 })();
 
 var bannerPhotoPool = [
-  'images/banner/IMG_0234.jpg','images/banner/IMG_0510.JPG','images/banner/IMG_0714.JPG',
-  'images/banner/IMG_0917.JPG','images/banner/IMG_0968.JPG','images/banner/IMG_0975.JPG',
-  'images/banner/IMG_1037.JPG','images/banner/IMG_1071.JPG','images/banner/IMG_1081.JPG',
-  'images/banner/IMG_1161.JPG','images/banner/IMG_1225.JPG','images/banner/IMG_1306.JPG',
-  'images/banner/dsc00023.jpg','images/banner/dsc00028.jpg','images/banner/dsc00030.jpg',
-  'images/banner/dsc00034.jpg','images/banner/dsc00039.jpg','images/banner/dsc00048(1).jpg',
-  'images/banner/dsc00048.jpg','images/banner/dsc00065.jpg','images/banner/img_0289.jpg',
-  'images/banner/img_1164.jpg','images/banner/img_1188.jpg','images/banner/img_1208.jpg'
+  '/images/banner/IMG_0234.jpg','/images/banner/IMG_0510.JPG','/images/banner/IMG_0714.JPG',
+  '/images/banner/IMG_0917.JPG','/images/banner/IMG_0968.JPG','/images/banner/IMG_0975.JPG',
+  '/images/banner/IMG_1037.JPG','/images/banner/IMG_1071.JPG','/images/banner/IMG_1081.JPG',
+  '/images/banner/IMG_1161.JPG','/images/banner/IMG_1225.JPG','/images/banner/IMG_1306.JPG',
+  '/images/banner/dsc00023.jpg','/images/banner/dsc00028.jpg','/images/banner/dsc00030.jpg',
+  '/images/banner/dsc00034.jpg','/images/banner/dsc00039.jpg','/images/banner/dsc00048(1).jpg',
+  '/images/banner/dsc00048.jpg','/images/banner/dsc00065.jpg','/images/banner/img_0289.jpg',
+  '/images/banner/img_1164.jpg','/images/banner/img_1188.jpg','/images/banner/img_1208.jpg'
 ];
 
 function initPhotoBanner() {
@@ -2632,7 +2632,12 @@ function initTravelMap() {
   travelMapMarkers = [];
   // Create map if first time
   if (!travelMap) {
-    travelMap = L.map('travel-map', { scrollWheelZoom: true }).setView([20, 15], 2);
+    travelMap = L.map('travel-map', {
+      scrollWheelZoom: true,
+      maxBounds: [[-85, -180], [85, 180]],
+      maxBoundsViscosity: 1.0,
+      minZoom: 2
+    }).setView([20, 15], 2);
     L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg?api_key=1b94e7da-3ef1-4157-9609-3635c1094194', {
       attribution: '© <a href="https://stamen.com">Stamen</a> / <a href="https://stadiamaps.com">Stadia</a>',
       maxZoom: 16
@@ -2831,6 +2836,34 @@ function refreshFromSheets() {
         tr.innerHTML = '<td>' + titleHTML + '</td><td>' + d.display + '</td><td>' + escHTML(f[5]||'') + '</td><td>' + escHTML(f[6]||'') + '</td><td><div class="pub-links">' + links + '</div></td>';
         tbody.appendChild(tr);
       });
+      // Rebuild Country and Topic dropdowns from new data
+      var countries = new Set();
+      var categories = new Set();
+      var allRows = tbody.querySelectorAll('tr');
+      allRows.forEach(function(tr) {
+        var c = tr.dataset.country || '';
+        var cat = tr.dataset.category || '';
+        c.split(',').forEach(function(x) { x = x.trim(); if (x) countries.add(x); });
+        cat.split(',').forEach(function(x) { x = x.trim(); if (x) categories.add(x); });
+      });
+      var countrySelect = document.getElementById('pub-country');
+      var catSelect = document.getElementById('pub-category');
+      var countryVal = countrySelect.value;
+      var catVal = catSelect.value;
+      countrySelect.innerHTML = '<option value="">All Countries</option>';
+      Array.from(countries).sort().forEach(function(c) {
+        var opt = document.createElement('option');
+        opt.value = c; opt.textContent = c;
+        countrySelect.appendChild(opt);
+      });
+      countrySelect.value = countryVal;
+      catSelect.innerHTML = '<option value="">All Topics</option>';
+      Array.from(categories).sort().forEach(function(c) {
+        var opt = document.createElement('option');
+        opt.value = c; opt.textContent = c;
+        catSelect.appendChild(opt);
+      });
+      catSelect.value = catVal;
       sortState.col = 'date'; sortState.asc = true;
       sortPubs('date');
       filterPubs();
