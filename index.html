@@ -2633,9 +2633,12 @@ function initTravelMap() {
   // Create map if first time
   if (!travelMap) {
     travelMap = L.map('travel-map', { scrollWheelZoom: true }).setView([20, 15], 2);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a> / <a href="https://carto.com">CARTO</a>',
-      maxZoom: 19
+    L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg?api_key=1b94e7da-3ef1-4157-9609-3635c1094194', {
+      attribution: '© <a href="https://stamen.com">Stamen</a> / <a href="https://stadiamaps.com">Stadia</a>',
+      maxZoom: 16
+    }).addTo(travelMap);
+    L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain_labels/{z}/{x}/{y}{r}.png?api_key=1b94e7da-3ef1-4157-9609-3635c1094194', {
+      attribution: '', maxZoom: 16, opacity: 0.45
     }).addTo(travelMap);
   }
   // Add markers
