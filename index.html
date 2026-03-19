@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dean Karlan - Website Mockup</title>
+<title>Dean Karlan</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
@@ -2559,6 +2559,9 @@ function showPage(id, el, skipPush) {
   }
   window.scrollTo(0, 0);
   if (elId === 'photos') { initPhotoBanner(); initTravelMap(); }
+  // Update page title
+  var pageTitles = { home: 'Dean Karlan', publications: 'Dean Karlan - Publications', books: 'Dean Karlan - Books', oce: 'Dean Karlan - OCE USAID Museum', photos: 'Dean Karlan - Photos' };
+  document.title = pageTitles[elId] || 'Dean Karlan';
   // Update URL
   var path = pageRoutes[elId] || pageRoutes[id] || '/';
   if (!skipPush) history.pushState({ page: id }, '', path);
