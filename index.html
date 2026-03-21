@@ -2710,13 +2710,17 @@ function filterPubs() {
 document.addEventListener('DOMContentLoaded', function() {
   // Route to correct page from URL
   var path = window.location.pathname.replace(/\/+$/, '') || '/';
-  var pages = { '/': 'home', '/publications': 'publications', '/books': 'books', '/usaid': 'oce', '/photos': 'photos' };
+  var pages = { '/': 'home', '/publications': 'publications', '/books': 'books', '/usaid': 'oce', '/photos': 'photos', '/poems': 'publications' };
   var page = pages[path] || 'home';
   if (page !== 'home') {
     showPage(page, null, true);
   }
   history.replaceState({ page: page }, '', path || '/');
   sortPubs('date');
+  // If /poems URL, set type filter to Poems
+  if (path === '/poems') {
+    document.getElementById('pub-type').value = 'Poems';
+  }
   filterPubs();
   // Auto-fetch fresh data from Google Sheets on every page load
   refreshFromSheets(true);
