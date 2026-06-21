@@ -201,8 +201,8 @@ function renderChart() {
   chart.innerHTML =
     `<div class="g-blank"></div>${bars}` +
     `<div class="g-blank"></div>${names}` +
-    `<div class="g-label">Best Prior</div>${priors}` +
-    `<div class="g-label">2026 Expectation</div>${exps}` +
+    `<div class="g-label">${isMobile ? "Prior" : "Best Prior"}</div>${priors}` +
+    `<div class="g-label">${isMobile ? "2026 Exp." : "2026 Expectation"}</div>${exps}` +
     `<div class="g-blank"></div>${checks}`;
   updateCompareCount();
 }
