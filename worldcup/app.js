@@ -183,7 +183,10 @@ function renderChart() {
   const teams = teamsByView();
   const max = Math.max(...teams.map((t) => t[key])) || 1;
   const chart = document.getElementById("chart");
-  chart.style.gridTemplateColumns = `96px repeat(${teams.length}, minmax(0, 1fr))`;
+  const isMobile = window.innerWidth <= 620;
+  chart.style.gridTemplateColumns = isMobile
+    ? `60px repeat(${teams.length}, 28px)`
+    : `96px repeat(${teams.length}, minmax(0, 1fr))`;
 
   const bars = teams.map((t, i) => {
     const h = Math.max(2, (t[key] / max) * 100);
