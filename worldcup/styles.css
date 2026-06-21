@@ -451,6 +451,7 @@ html { overflow-x: clip; }
   html { overflow-x: auto; }
   .chart-wrap { padding: 0 8px; overflow-x: auto; overflow-y: visible; -webkit-overflow-scrolling: touch; width: auto; margin-left: 0; }
   #chart { min-width: 1450px; grid-template-rows: 120px 90px 14px 14px 22px; }
+  #chart .g-label { font-size: 0.55rem; padding-right: 2px; }
   .chart-legend { margin: 0 6px 8px; }
 
   /* Headline callout */
