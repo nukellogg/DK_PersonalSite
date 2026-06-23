@@ -18,12 +18,14 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Run pipeline
+      - name: Fetch live results and rerun model
         env:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
         run: |
           cd pipeline
-          python run_all.py
+          python fetch_results.py
+          python fetch_elo.py
+          python model.py
 
       - name: Copy rankings to live site
         run: cp web/rankings.json worldcup/rankings.json
