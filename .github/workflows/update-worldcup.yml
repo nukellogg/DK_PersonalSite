@@ -1,0 +1,43 @@
+name: Update World Cup rankings daily
+
+on:
+  schedule:
+    # Midnight US Eastern (4 AM or 5 AM UTC depending on DST)
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-rankings:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run pipeline
+        env:
+          FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+        run: |
+          cd pipeline
+          python run_all.py
+
+      - name: Copy rankings to live site
+        run: cp web/rankings.json worldcup/rankings.json
+
+      - name: Check for changes
+        id: diff
+        run: |
+          git diff --quiet worldcup/rankings.json && echo "changed=false" >> "$GITHUB_OUTPUT" || echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add worldcup/rankings.json data/results.json data/elo.csv
+          git commit -m "Auto-update World Cup rankings $(date -u +%Y-%m-%d)"
+          git push
