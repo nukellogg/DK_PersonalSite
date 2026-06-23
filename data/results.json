@@ -1,6 +1,200 @@
 {
-  "as_of": "2026-06-19",
-  "source": "default snapshot (pre-knockout)",
-  "note": "Group stage in progress. Every team is alive and no knockout depth has been reached yet, so each carries its full capacity to surprise. Updated by fetch_results.py (set FOOTBALL_DATA_TOKEN) or by hand: per team, reached_depth is the deepest knockout round reached (R32=1, R16=2, QF=3, SF=4, final=5, champion=6) and eliminated is true once they are out. Teams absent from this map default to reached_depth 0, not eliminated.",
-  "teams": {}
+  "as_of": {
+    "season": "2026"
+  },
+  "source": "football-data.org",
+  "teams": {
+    "Jordan": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Brazil": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Panama": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Norway": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Cape Verde Islands": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Germany": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Paraguay": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Austria": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Australia": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "South Africa": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Czechia": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Iran": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Curacao": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Algeria": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "England": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Ghana": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Tunisia": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Sweden": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "France": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Iraq": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Egypt": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Saudi Arabia": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Uzbekistan": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Mexico": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Canada": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Bosnia-Herzegovina": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Japan": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Belgium": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Senegal": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Scotland": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Portugal": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Morocco": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "South Korea": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Uruguay": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Argentina": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Croatia": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "United States": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Ecuador": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Netherlands": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Ivory Coast": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Qatar": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Spain": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Haiti": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "New Zealand": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Turkiye": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Colombia": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "Switzerland": {
+      "reached_depth": 0,
+      "eliminated": false
+    },
+    "DR Congo": {
+      "reached_depth": 0,
+      "eliminated": false
+    }
+  }
 }
