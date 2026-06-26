@@ -18,28 +18,36 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Fetch live results and rerun model
+      - name: Fetch live results
         env:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
         run: |
+          set -e
           cd pipeline
           python fetch_results.py
+          echo "--- results.json ---"
+          cat ../data/results.json | head -30
+
+      - name: Fetch Elo ratings
+        run: |
+          set -e
+          cd pipeline
           python fetch_elo.py
+
+      - name: Run model
+        run: |
+          set -e
+          cd pipeline
           python model.py
+          echo "--- rankings.json generated ---"
+          python -c "import json; d=json.load(open('../web/rankings.json')); print('Generated:', d['meta']['generated']); t=d['teams'][0]; print('Top team:', t['name'], 'depth:', t['reached_depth'], 'elim:', t['eliminated'])"
 
       - name: Copy rankings to live site
         run: cp web/rankings.json worldcup/rankings.json
 
-      - name: Check for changes
-        id: diff
-        run: |
-          git diff --quiet worldcup/rankings.json && echo "changed=false" >> "$GITHUB_OUTPUT" || echo "changed=true" >> "$GITHUB_OUTPUT"
-
       - name: Commit and push
-        if: steps.diff.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add worldcup/rankings.json data/results.json data/elo.csv
-          git commit -m "Auto-update World Cup rankings $(date -u +%Y-%m-%d)"
-          git push
+          git diff --staged --quiet && echo "No changes to commit" || (git commit -m "Auto-update World Cup rankings $(date -u +%Y-%m-%d)" && git push)
