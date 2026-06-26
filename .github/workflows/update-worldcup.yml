@@ -6,6 +6,10 @@ on:
     - cron: '0 4 * * *'
   workflow_dispatch:
 
+permissions:
+  id-token: write
+  contents: write
+
 jobs:
   update-rankings:
     runs-on: ubuntu-latest
@@ -46,8 +50,36 @@ jobs:
         run: cp web/rankings.json worldcup/rankings.json
 
       - name: Commit and push
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add worldcup/rankings.json data/results.json data/elo.csv
-          git diff --staged --quiet && echo "No changes to commit" || (git commit -m "Auto-update World Cup rankings $(date -u +%Y-%m-%d)" && git push)
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "Auto-update World Cup rankings $(date -u +%Y-%m-%d)"
+            git push
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Azure Login
+        if: steps.commit.outputs.pushed == 'true'
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.WWWDK_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.WWWDK_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.WWWDK_AZURE_SUBSCRIPTION_ID }}
+          client-secret: ${{ secrets.WWWDK_AZURE_CLIENT_SECRET }}
+
+      - name: Deploy to Azure Container Apps
+        if: steps.commit.outputs.pushed == 'true'
+        run: |
+          az acr login --name ksmacr
+          docker build --no-cache -t ksmacr.azurecr.io/wwwdeankarlancom:${{ github.sha }} ./
+          docker push ksmacr.azurecr.io/wwwdeankarlancom:${{ github.sha }}
+          az containerapp update \
+            --name wwwdeankarlancom \
+            --resource-group KSM_Teaching_RG \
+            --image ksmacr.azurecr.io/wwwdeankarlancom:${{ github.sha }}
