@@ -4,43 +4,11 @@
   },
   "source": "football-data.org",
   "teams": {
-    "Ivory Coast": {
-      "reached_depth": 1,
-      "eliminated": true
-    },
-    "Curacao": {
-      "reached_depth": 0,
-      "eliminated": true
-    },
-    "Tunisia": {
-      "reached_depth": 0,
-      "eliminated": true
-    },
-    "Panama": {
-      "reached_depth": 0,
-      "eliminated": true
-    },
-    "Scotland": {
-      "reached_depth": 0,
-      "eliminated": true
-    },
-    "Ecuador": {
-      "reached_depth": 1,
-      "eliminated": true
-    },
-    "Brazil": {
+    "Paraguay": {
       "reached_depth": 2,
       "eliminated": false
     },
-    "Colombia": {
-      "reached_depth": 1,
-      "eliminated": false
-    },
-    "Bosnia-Herzegovina": {
-      "reached_depth": 1,
-      "eliminated": true
-    },
-    "Turkiye": {
+    "Curacao": {
       "reached_depth": 0,
       "eliminated": true
     },
@@ -48,47 +16,23 @@
       "reached_depth": 0,
       "eliminated": true
     },
-    "Paraguay": {
+    "England": {
       "reached_depth": 2,
       "eliminated": false
     },
-    "Cape Verde Islands": {
-      "reached_depth": 1,
-      "eliminated": false
-    },
-    "Ghana": {
-      "reached_depth": 1,
-      "eliminated": false
-    },
-    "Canada": {
-      "reached_depth": 2,
-      "eliminated": false
-    },
-    "Portugal": {
-      "reached_depth": 1,
-      "eliminated": false
-    },
-    "Germany": {
+    "Japan": {
       "reached_depth": 1,
       "eliminated": true
     },
-    "Morocco": {
-      "reached_depth": 2,
+    "Colombia": {
+      "reached_depth": 1,
       "eliminated": false
     },
-    "Netherlands": {
+    "DR Congo": {
       "reached_depth": 1,
       "eliminated": true
     },
-    "Jordan": {
-      "reached_depth": 0,
-      "eliminated": true
-    },
-    "France": {
-      "reached_depth": 2,
-      "eliminated": false
-    },
-    "United States": {
+    "Brazil": {
       "reached_depth": 2,
       "eliminated": false
     },
@@ -100,13 +44,65 @@
       "reached_depth": 0,
       "eliminated": true
     },
-    "DR Congo": {
+    "South Africa": {
       "reached_depth": 1,
       "eliminated": true
     },
-    "Mexico": {
+    "Iran": {
+      "reached_depth": 0,
+      "eliminated": true
+    },
+    "Czechia": {
+      "reached_depth": 0,
+      "eliminated": true
+    },
+    "Haiti": {
+      "reached_depth": 0,
+      "eliminated": true
+    },
+    "Turkiye": {
+      "reached_depth": 0,
+      "eliminated": true
+    },
+    "France": {
       "reached_depth": 2,
       "eliminated": false
+    },
+    "Egypt": {
+      "reached_depth": 1,
+      "eliminated": false
+    },
+    "Scotland": {
+      "reached_depth": 0,
+      "eliminated": true
+    },
+    "Austria": {
+      "reached_depth": 1,
+      "eliminated": true
+    },
+    "Switzerland": {
+      "reached_depth": 1,
+      "eliminated": false
+    },
+    "Germany": {
+      "reached_depth": 1,
+      "eliminated": true
+    },
+    "Croatia": {
+      "reached_depth": 1,
+      "eliminated": true
+    },
+    "Argentina": {
+      "reached_depth": 1,
+      "eliminated": false
+    },
+    "Spain": {
+      "reached_depth": 1,
+      "eliminated": false
+    },
+    "Sweden": {
+      "reached_depth": 1,
+      "eliminated": true
     },
     "Belgium": {
       "reached_depth": 2,
@@ -116,83 +112,87 @@
       "reached_depth": 2,
       "eliminated": false
     },
-    "Japan": {
+    "Ghana": {
       "reached_depth": 1,
       "eliminated": true
     },
-    "Iraq": {
-      "reached_depth": 0,
-      "eliminated": true
-    },
-    "Croatia": {
-      "reached_depth": 1,
-      "eliminated": true
-    },
-    "Switzerland": {
-      "reached_depth": 1,
+    "United States": {
+      "reached_depth": 2,
       "eliminated": false
     },
-    "Sweden": {
-      "reached_depth": 1,
-      "eliminated": true
+    "Morocco": {
+      "reached_depth": 2,
+      "eliminated": false
     },
-    "Haiti": {
-      "reached_depth": 0,
-      "eliminated": true
+    "Mexico": {
+      "reached_depth": 2,
+      "eliminated": false
     },
     "Australia": {
       "reached_depth": 1,
       "eliminated": false
     },
-    "New Zealand": {
+    "Iraq": {
       "reached_depth": 0,
       "eliminated": true
     },
-    "Algeria": {
+    "Bosnia-Herzegovina": {
       "reached_depth": 1,
       "eliminated": true
+    },
+    "Panama": {
+      "reached_depth": 0,
+      "eliminated": true
+    },
+    "Tunisia": {
+      "reached_depth": 0,
+      "eliminated": true
+    },
+    "Portugal": {
+      "reached_depth": 1,
+      "eliminated": false
     },
     "Saudi Arabia": {
       "reached_depth": 0,
       "eliminated": true
     },
-    "England": {
-      "reached_depth": 2,
-      "eliminated": false
+    "Jordan": {
+      "reached_depth": 0,
+      "eliminated": true
+    },
+    "Cape Verde Islands": {
+      "reached_depth": 1,
+      "eliminated": true
     },
     "South Korea": {
       "reached_depth": 0,
-      "eliminated": true
-    },
-    "Argentina": {
-      "reached_depth": 1,
-      "eliminated": false
-    },
-    "Iran": {
-      "reached_depth": 0,
-      "eliminated": true
-    },
-    "Austria": {
-      "reached_depth": 1,
       "eliminated": true
     },
     "Senegal": {
       "reached_depth": 1,
       "eliminated": true
     },
-    "Spain": {
-      "reached_depth": 1,
+    "Canada": {
+      "reached_depth": 2,
       "eliminated": false
     },
-    "Egypt": {
-      "reached_depth": 1,
-      "eliminated": false
-    },
-    "South Africa": {
+    "Ivory Coast": {
       "reached_depth": 1,
       "eliminated": true
     },
-    "Czechia": {
+    "Ecuador": {
+      "reached_depth": 1,
+      "eliminated": true
+    },
+    "Netherlands": {
+      "reached_depth": 1,
+      "eliminated": true
+    },
+    "Algeria": {
+      "reached_depth": 1,
+      "eliminated": true
+    },
+    "New Zealand": {
       "reached_depth": 0,
       "eliminated": true
     }
