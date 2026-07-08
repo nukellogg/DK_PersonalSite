@@ -25,7 +25,7 @@
       "eliminated": true
     },
     "Argentina": {
-      "reached_depth": 2,
+      "reached_depth": 3,
       "eliminated": false
     },
     "Ivory Coast": {
@@ -61,7 +61,7 @@
       "eliminated": true
     },
     "Switzerland": {
-      "reached_depth": 2,
+      "reached_depth": 3,
       "eliminated": false
     },
     "Turkiye": {
@@ -162,7 +162,7 @@
     },
     "Colombia": {
       "reached_depth": 2,
-      "eliminated": false
+      "eliminated": true
     },
     "New Zealand": {
       "reached_depth": 0,
@@ -194,6 +194,18 @@
     },
     "Scotland": {
       "reached_depth": 0,
+      "eliminated": true
+    },
+    "Bosnia and Herzegovina": {
+      "reached_depth": 1,
+      "eliminated": true
+    },
+    "Cote d'Ivoire": {
+      "reached_depth": 1,
+      "eliminated": true
+    },
+    "Cape Verde": {
+      "reached_depth": 1,
       "eliminated": true
     }
   }
