@@ -502,5 +502,33 @@
     "group": "L",
     "home": "England",
     "away": "Croatia"
+  },
+  {
+    "date": "2026-07-09",
+    "matchday": "QF",
+    "group": "QF",
+    "home": "France",
+    "away": "Morocco"
+  },
+  {
+    "date": "2026-07-10",
+    "matchday": "QF",
+    "group": "QF",
+    "home": "Spain",
+    "away": "Belgium"
+  },
+  {
+    "date": "2026-07-11",
+    "matchday": "QF",
+    "group": "QF",
+    "home": "Norway",
+    "away": "England"
+  },
+  {
+    "date": "2026-07-11",
+    "matchday": "QF",
+    "group": "QF",
+    "home": "Argentina",
+    "away": "Switzerland"
   }
 ]

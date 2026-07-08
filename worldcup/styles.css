@@ -370,7 +370,9 @@ html { overflow-x: clip; }
 .barcell .bval { font-size: 0.58rem; color: var(--muted); margin-bottom: 1px; }
 .barcell .bar { width: 72%; min-height: 2px; background: var(--bar); border-radius: 2px 2px 0 0; }
 .barcell.top .bar { background: var(--gold); }
-.barcell.out .bar { background: #d8a7a7; }
+.barcell.out { opacity: 0.15; }
+.barcell.out .bar { background: #ccc; }
+.namecell.out, .abbr.out, .checkcell.out { opacity: 0.15; }
 .namecell { display: flex; justify-content: center; align-items: flex-start; overflow: hidden; padding-top: 4px; }
 .namecell span { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 0.66rem; font-weight: 600; color: var(--ink); white-space: nowrap; }
 .abbr { text-align: center; font-size: 0.66rem; line-height: 1.4; overflow: hidden; white-space: nowrap; }

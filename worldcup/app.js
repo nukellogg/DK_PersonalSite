@@ -134,7 +134,14 @@ async function load() {
 
 function teamsByView() {
   const key = activeKey();
-  return [...DATA.teams].sort((a, b) => b[key] - a[key]);
+  return [...DATA.teams].sort((a, b) => {
+    if (a.eliminated !== b.eliminated) return a.eliminated ? 1 : -1;
+    return b[key] - a[key];
+  });
+}
+
+function displayScore(t, key) {
+  return t.eliminated ? 0 : t[key];
 }
 
 function refresh() {
@@ -181,7 +188,7 @@ function renderChart() {
 
   const key = activeKey();
   const teams = teamsByView();
-  const max = Math.max(...teams.map((t) => t[key])) || 1;
+  const max = Math.max(...teams.filter((t) => !t.eliminated).map((t) => t[key])) || 1;
   const chart = document.getElementById("chart");
   const isMobile = window.innerWidth <= 620;
   chart.style.gridTemplateColumns = isMobile
@@ -189,14 +196,15 @@ function renderChart() {
     : `96px repeat(${teams.length}, minmax(0, 1fr))`;
 
   const bars = teams.map((t, i) => {
-    const h = Math.max(2, (t[key] / max) * 100);
-    const cls = "barcell" + (i === 0 ? " top" : "") + (t.eliminated ? " out" : "");
-    return `<div class="${cls}" data-name="${t.name}"><div class="bval">${t[key].toFixed(0)}</div><div class="bar" style="height:${h}%"></div></div>`;
+    const score = t.eliminated ? 0 : t[key];
+    const h = t.eliminated ? 2 : Math.max(2, (score / max) * 100);
+    const cls = "barcell" + (!t.eliminated && i === 0 ? " top" : "") + (t.eliminated ? " out" : "");
+    return `<div class="${cls}" data-name="${t.name}"><div class="bval">${t.eliminated ? "" : score.toFixed(0)}</div><div class="bar" style="height:${h}%"></div></div>`;
   }).join("");
-  const names = teams.map((t) => `<div class="namecell" data-name="${t.name}"><span>${shortName(t.name)}</span></div>`).join("");
-  const priors = teams.map((t) => `<div class="abbr prior" data-name="${t.name}">${stageAbbr(bestPrior(t.best_finish))}</div>`).join("");
-  const exps = teams.map((t) => `<div class="abbr exp" data-name="${t.name}">${stageAbbr(expStage(t.expected_depth))}</div>`).join("");
-  const checks = teams.map((t) => `<div class="checkcell"><input type="checkbox" class="col-check" ${selected.has(t.name) ? "checked" : ""} data-name="${t.name}" aria-label="compare ${t.name}"></div>`).join("");
+  const names = teams.map((t) => `<div class="namecell${t.eliminated ? " out" : ""}" data-name="${t.name}"><span>${shortName(t.name)}</span></div>`).join("");
+  const priors = teams.map((t) => `<div class="abbr prior${t.eliminated ? " out" : ""}" data-name="${t.name}">${stageAbbr(bestPrior(t.best_finish))}</div>`).join("");
+  const exps = teams.map((t) => `<div class="abbr exp${t.eliminated ? " out" : ""}" data-name="${t.name}">${stageAbbr(expStage(t.expected_depth))}</div>`).join("");
+  const checks = teams.map((t) => `<div class="checkcell${t.eliminated ? " out" : ""}"><input type="checkbox" class="col-check" ${selected.has(t.name) ? "checked" : ""} data-name="${t.name}" aria-label="compare ${t.name}"></div>`).join("");
 
   chart.innerHTML =
     `<div class="g-blank"></div>${bars}` +
@@ -253,7 +261,7 @@ function renderCompareTable() {
   el.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
-const TODAY = "2026-06-19";
+const TODAY = new Date().toISOString().slice(0, 10);
 function fmtDate(iso) {
   const [y, m, d] = iso.split("-").map(Number);
   const dt = new Date(Date.UTC(y, m - 1, d));
