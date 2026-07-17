@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-16T05:02:57+00:00",
+    "generated": "2026-07-17T05:03:26+00:00",
     "title": "World Cup Happiness Index 2026",
     "live_changed": true,
     "basis": "performance relative to expectations (default), or absolute performance if they win; never weighted by win probability",
@@ -286,7 +286,7 @@
       "mu_weight": 0.305,
       "present_value": 0.646,
       "expected_depth": 3.8,
-      "reached_depth": 4,
+      "reached_depth": 5,
       "eliminated": false,
       "surprise": 10.49,
       "surprise_pre": 10.49,
